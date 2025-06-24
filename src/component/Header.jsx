@@ -44,8 +44,9 @@ const Header = () => {
             </div> */}
 
                         <div className="hidden md:flex space-x-4">
-                            <button className="px-4 py-2 text-blue-400 hover:text-white transition-colors">
-                                Sign In
+                            <button className="px-4 py-2 text-blue-400 hover:text-blue-700 transition-colors">
+                              <a href='https://www.payskul.com' target="_blank" rel="noopener noreferrer">Sign In</a>
+
                             </button>
                             <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105">
                                 <Link to='/school'>

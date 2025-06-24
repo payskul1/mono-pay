@@ -36,7 +36,7 @@ export default function PayskulStudentLanding() {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-indigo-900 to-purple-900 text-white overflow-hidden">
       {/* Animated Background */}
      
 
@@ -49,7 +49,7 @@ export default function PayskulStudentLanding() {
               <span className="text-sm">Trusted by thousands of Nigerian Students</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
               Don't Let Fees
               <br />
               <span className="text-blue-400">Stop Your Dreams</span>
@@ -143,7 +143,7 @@ export default function PayskulStudentLanding() {
       </section> */}
 
       {/* Benefits Section */}
-      <section id="benefits" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+      <section id="benefits" className="py-2 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -280,11 +280,11 @@ export default function PayskulStudentLanding() {
               Join thousands of students who are already on their path to success with Payskul.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105">
-                Register Now - It's Free
+              <button className="px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 cursor-default">
+                <a href='https://play.google.com/store/apps/details?id=ng.payskul.portal&hl=en-US'>Register Now - It's Free</a>
               </button>
-              <button className="px-8 py-4 border border-blue-500/50 rounded-xl text-lg font-semibold hover:bg-blue-500/10 transition-all">
-                Speak to Our Team
+              <button className="px-6 py-4 border border-blue-500/50 rounded-xl text-lg font-semibold hover:bg-blue-500/10 transition-all cursor-default">
+                <a href='https://payskul.ng/contact' target='blank'>Speak to Our Team</a>
               </button>
             </div>
             <p className="text-sm text-gray-400 mt-4">
