@@ -232,11 +232,11 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
 
 const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
     <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-white mb-6">Loan Details</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Fee Details</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label className="block text-white text-sm font-medium mb-2">Loan Amount *</label>
+                <label className="block text-white text-sm font-medium mb-2">Fee Amount *</label>
                 <input
                     type="number"
                     name="loanAmount"
@@ -251,17 +251,17 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
             </div>
 
             <div>
-                <label className="block text-white text-sm font-medium mb-2">Loan Type *</label>
+                <label className="block text-white text-sm font-medium mb-2">Fee Type *</label>
                 <select
                     name="loanType"
                     value={formData.loanType || ''}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
-                    <option value="">Select loan type</option>
-                    <option value="tuition">Tuition Fee Loan</option>
-                    <option value="living">Living Expense Loan</option>
-                    <option value="combined">Combined Loan</option>
+                    <option className='text-black' value="">Select loan type</option>
+                    <option className='text-black' value="tuition">Tuition Fee Loan</option>
+                    <option className='text-black' value="living">Living Expense Loan</option>
+                    <option className='text-black' value="combined">Combined Loan</option>
                 </select>
             </div>
 
@@ -287,12 +287,12 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                         handleInputChange(e);
                         setTimeout(calculateMonthlyPayment, 100);
                     }}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
-                    <option value="">Select term</option>
-                    <option value="5">1 year</option>
-                    <option value="10">2 years</option>
-                    <option value="15">3 years</option>
+                    <option className='text-black' value="">Select term</option>
+                    <option className='text-black' value="1">1 year</option>
+                    <option className='text-black' value="2">2 years</option>
+                    <option className='text-black' value="3">3 years</option>
                     {/* <option value="20">20 years</option> */}
                 </select>
             </div>
@@ -807,20 +807,71 @@ const StudentLoan = () => {
     }, []);
 
 
+    // const calculateMonthlyPayment = () => {
+    //     const principal = parseFloat(formData.loanAmount) || 0;
+    //     const rate = 0.7; // 7% annual rate
+    //     const term = (parseFloat(formData.repaymentTerm) || 0) * 12;
+    //     console.log(term)
+
+    //     if (principal && rate && term) {
+    //         const monthlyPayment = (principal * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             monthlyPayment: monthlyPayment.toFixed(2)
+    //         }));
+    //     }
+    // };
     const calculateMonthlyPayment = () => {
-        const principal = parseFloat(formData.loanAmount) || 0;
-        const rate = 0.07 / 12; // 7% annual rate
-        const term = (parseFloat(formData.repaymentTerm) || 0) * 12;
+    const loanAmount = parseFloat(formData.loanAmount) || 0;
+    const annualInterestRate = 0.07; // 7% annual interest rate
+    // const monthlyInterestRate = annualInterestRate / 12;
+    const repaymentPeriodInMonths = (parseFloat(formData.repaymentTerm) || 0) * 12;
 
-        if (principal && rate && term) {
-            const monthlyPayment = (principal * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
-            setFormData(prev => ({
-                ...prev,
-                monthlyPayment: monthlyPayment.toFixed(2)
-            }));
-        }
-    };
+    if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
+        // Standard loan repayment formula: M = P * [r(1+r)^n] / [(1+r)^n - 1]
+        const monthlyRepayment = (loanAmount * annualInterestRate * Math.pow(1 + annualInterestRate, repaymentPeriodInMonths)) / 
+                                (Math.pow(1 + annualInterestRate, repaymentPeriodInMonths) - 1);
+        
+        setFormData(prev => ({
+            ...prev,
+            monthlyRepayment: monthlyRepayment.toFixed(2)
+        }));
+        console.log(monthlyRepayment)
+    } else {
+        // Reset if invalid inputs
+        setFormData(prev => ({
+            ...prev,
+            monthlyRepayment: ''
+        }));
+    }
+};
 
+// const calculateMonthlyPayment = () => {
+//     const loanAmount = parseFloat(formData.loanAmount) || 0;
+//     const annualInterestRate = 0.07; // 7% annual interest rate
+//     const monthlyInterestRate = annualInterestRate / 12;
+    
+//     // Extract number from repayment term (handles "1 Year", "2 Years", or just "1", "2")
+//     const termText = formData.repaymentTerm || '';
+//     const repaymentYears = parseInt(termText.match(/\d+/)?.[0]) || 0;
+//     const repaymentPeriodInMonths = repaymentYears * 12;
+
+//     if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
+//         const monthlyRepayment = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths)) / 
+//                                 (Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths) - 1);
+        
+//         setFormData(prev => ({
+//             ...prev,
+//             monthlyRepayment: monthlyRepayment.toFixed(2)
+//         }));
+//         console.log(monthlyRepayment);
+//     } else {
+//         setFormData(prev => ({
+//             ...prev,
+//             monthlyRepayment: ''
+//         }));
+//     }
+// };
     const isStepValid = (step) => {
         const requiredFields = stepValidations[step] || [];
         const hasRequiredFields = requiredFields.every(field => formData[field]?.toString().trim());
