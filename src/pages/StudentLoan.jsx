@@ -202,7 +202,7 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
                 </select>
             </div>
 
-            <div>
+            {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">Expected Graduation</label>
                 <input
                     type="date"
@@ -211,10 +211,10 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
-            </div>
+            </div> */}
 
             <div>
-               
+
             </div>
         </div>
     </div>
@@ -242,7 +242,7 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                 />
             </div>
 
-            <div>
+            {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">Fee Type *</label>
                 <select
                     name="loanType"
@@ -255,6 +255,19 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                     <option className='text-black' value="living">Living Expense Loan</option>
                     <option className='text-black' value="combined">Combined Loan</option>
                 </select>
+            </div> */}
+            <div>
+                <label className="block text-white text-sm font-medium mb-2">Fee Type *</label>
+                <input
+                    type='text'
+                    name='loanType'
+                    value={formData.loanType || ''}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder='Tuition Fee'
+                    readOnly
+
+                />
             </div>
 
             <div>
@@ -263,10 +276,10 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                     type="number"
                     step="0.1"
                     name="interestRate"
-                    value={formData.interestRate || '15'}
+                    value={formData.interestRate || '16.5'}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    placeholder="7.0"
+                    placeholder="16.5"
                     readOnly
                 />
             </div>
@@ -285,9 +298,12 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                     <option className='text-black' value="">Select term</option>
-                    <option className='text-black' value="1">1 year</option>
-                    <option className='text-black' value="2">2 years</option>
-                    <option className='text-black' value="3">3 years</option>
+                    <option className='text-black' value="0.25">3 Months</option>
+                    <option className='text-black' value="0.5">6 Months</option>
+                    <option className='text-black' value="0.75">9 Months</option>
+                    <option className='text-black' value="1">12 Months</option>
+                    {/* <option className='text-black' value="2">2 years</option> */}
+                    {/* <option className='text-black' value="3">3 years</option> */}
                     {/* <option value="20">20 years</option> */}
                 </select>
             </div>
@@ -342,7 +358,7 @@ const Financial = ({ formData, handleInputChange }) => (
         {/* <h2 className="text-2xl font-bold text-white mb-6">Financial Information</h2> */}
 
         {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
-            {/* <div>
+        {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">Annual Income</label>
                 <input
                     type="number"
@@ -370,7 +386,7 @@ const Financial = ({ formData, handleInputChange }) => (
                 </select>
             </div> */}
 
-            {/* <div>
+        {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">Employer</label>
                 <input
                     type="text"
@@ -679,22 +695,22 @@ const StudentLoan = () => {
         phone: '',
         dateOfBirth: '',
         address: '',
-        city: '',
+        // city: '',
         state: '',
-        zipCode: '',
+        // zipCode: '',
 
         // Academic Information
         studentId: '',
         institution: '',
         program: '',
         year: '',
-        expectedGraduation: '',
-        gpa: '',
+        // expectedGraduation: '',
+        // gpa: '',
 
         // Loan Information
         loanAmount: '',
-        loanType: '',
-        interestRate: '7',
+        loanType: 'Tuition Fee',
+        interestRate: '16.5',
         // loanStartDate: '',
         repaymentTerm: '',
         monthlyPayment: '',
@@ -742,7 +758,7 @@ const StudentLoan = () => {
     const stepValidations = {
         1: ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth', 'address', 'state'],
         2: ['studentId', 'institution', 'program'],
-        3: ['loanAmount', 'loanType', 'interestRate', 'repaymentTerm', 'repaymentDate'],
+        3: ['loanAmount', 'interestRate', 'repaymentTerm', 'repaymentDate'],
         4: ['cosignerName', 'cosignerPhone'],
         // 5: ['bankName', 'accountNumber', 'accountName', 'bvn'], 
         5: ['bvn'],
@@ -1011,17 +1027,17 @@ const StudentLoan = () => {
                         {renderCurrentStep()}
                     </div>
 
-    {currentStep < steps.length && (
+                    {currentStep < steps.length && (
 
-                    <NavigationButtons
-                        currentStep={currentStep}
-                        totalSteps={steps.length}
-                        onPrevious={prevStep}
-                        onNext={nextStep}
-                        onSubmit={handleSubmit}
-                        isStepValid={isStepValid(currentStep)}
-                    />
-    )}
+                        <NavigationButtons
+                            currentStep={currentStep}
+                            totalSteps={steps.length}
+                            onPrevious={prevStep}
+                            onNext={nextStep}
+                            onSubmit={handleSubmit}
+                            isStepValid={isStepValid(currentStep)}
+                        />
+                    )}
                 </div>
             </div>
         </div>
