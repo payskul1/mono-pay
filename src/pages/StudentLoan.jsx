@@ -740,7 +740,7 @@ const StudentLoan = () => {
     ];
 
     const stepValidations = {
-        1: ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth', 'address', 'city', 'state'],
+        1: ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth', 'address', 'state'],
         2: ['studentId', 'institution', 'program'],
         3: ['loanAmount', 'loanType', 'interestRate', 'repaymentTerm', 'repaymentDate'],
         4: ['cosignerName', 'cosignerPhone'],
