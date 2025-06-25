@@ -150,14 +150,14 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label className="block text-white text-sm font-medium mb-2">Student ID *</label>
+                <label className="block text-white text-sm font-medium mb-2">Matrix No *</label>
                 <input
                     type="text"
                     name="studentId"
                     value={formData.studentId || ''}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    placeholder="Enter your student ID"
+                    placeholder="Enter your Matrix No"
                 />
             </div>
 
@@ -174,32 +174,27 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
             </div>
 
             <div>
-                <label className="block text-white text-sm font-medium mb-2">Program *</label>
+                <label className="block text-white text-sm font-medium mb-2">Department *</label>
                 <input
                     type="text"
                     name="program"
                     value={formData.program || ''}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    placeholder="Enter your program"
+                    placeholder="Enter your department"
                 />
             </div>
 
             <div>
                 <label className="block text-white text-sm font-medium mb-2">Academic Year</label>
-                <select
+                <input
                     name="year"
                     value={formData.year || ''}
                     onChange={handleInputChange}
+                    placeholder='Enter Acedemic Year'
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                >
-                    <option value="">Select year</option>
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                    <option value="4">4th Year</option>
-                    <option value="5">5th Year</option>
-                </select>
+                />
+                  
             </div>
 
             {/* <div>
