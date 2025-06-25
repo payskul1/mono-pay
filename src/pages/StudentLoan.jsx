@@ -82,7 +82,7 @@ const PersonalInformation = ({ formData, handleInputChange, imagePreview, handle
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
+            {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">City *</label>
                 <input
                     type="text"
@@ -92,7 +92,7 @@ const PersonalInformation = ({ formData, handleInputChange, imagePreview, handle
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     placeholder="City"
                 />
-            </div>
+            </div> */}
 
             <div>
                 <label className="block text-white text-sm font-medium mb-2">State *</label>
@@ -106,7 +106,7 @@ const PersonalInformation = ({ formData, handleInputChange, imagePreview, handle
                 />
             </div>
 
-            <div>
+            {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">Zip Code</label>
                 <input
                     type="text"
@@ -116,7 +116,7 @@ const PersonalInformation = ({ formData, handleInputChange, imagePreview, handle
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     placeholder="Zip Code"
                 />
-            </div>
+            </div> */}
         </div>
 
         <div>
@@ -214,18 +214,7 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
             </div>
 
             <div>
-                <label className="block text-white text-sm font-medium mb-2">GPA</label>
-                <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    max="4"
-                    name="gpa"
-                    value={formData.gpa || ''}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    placeholder="Enter your GPA"
-                />
+               
             </div>
         </div>
     </div>
@@ -274,10 +263,11 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                     type="number"
                     step="0.1"
                     name="interestRate"
-                    value={formData.interestRate || '7'}
+                    value={formData.interestRate || '15'}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     placeholder="7.0"
+                    readOnly
                 />
             </div>
 
@@ -349,10 +339,10 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
 
 const Financial = ({ formData, handleInputChange }) => (
     <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-white mb-6">Financial Information</h2>
+        {/* <h2 className="text-2xl font-bold text-white mb-6">Financial Information</h2> */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
+            {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">Annual Income</label>
                 <input
                     type="number"
@@ -378,9 +368,9 @@ const Financial = ({ formData, handleInputChange }) => (
                     <option value="self-employed">Self-employed</option>
                     <option value="unemployed">Unemployed</option>
                 </select>
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
                 <label className="block text-white text-sm font-medium mb-2">Employer</label>
                 <input
                     type="text"
@@ -391,9 +381,9 @@ const Financial = ({ formData, handleInputChange }) => (
                     placeholder="Enter employer name"
                 />
             </div>
-        </div>
+        </div> */}
 
-        <div className="border-t border-white/20 pt-6">
+        <div className="border-white/20 pt-6">
             <h3 className="text-xl font-semibold text-white mb-4">Cosigner Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
