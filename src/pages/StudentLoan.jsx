@@ -150,7 +150,7 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label className="block text-white text-sm font-medium mb-2">Matrix No *</label>
+                <label className="block text-white text-sm font-medium mb-2">Matric No *</label>
                 <input
                     type="text"
                     name="studentId"
@@ -280,7 +280,7 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
             </div>
 
             <div>
-                <label className="block text-white text-sm font-medium mb-2">Repayment Term (years) *</label>
+                <label className="block text-white text-sm font-medium mb-2">Repayment Term *</label>
                 <select
                     name="repaymentTerm"
                     value={formData.repaymentTerm || ''}
