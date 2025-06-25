@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, GraduationCap, DollarSign, Calendar, Shield, CheckCircle, Star, Menu, X, Book, Users, CreditCard, Smartphone } from 'lucide-react';
+import { ArrowRight, GraduationCap, DollarSign, Calendar, Shield, Smartphone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function PayskulStudentLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,7 +47,7 @@ export default function PayskulStudentLanding() {
           <div className="text-center">
             <div className="inline-flex items-center px-4 py-2 bg-blue-500/20 rounded-full border border-blue-500/30 mb-8">
               <GraduationCap className="w-4 h-4 mr-2 text-blue-400" />
-              <span className="text-sm">Trusted by thousands of Nigerian Students</span>
+              <span className="text-sm">Trusted by Thousands of Nigerian Students</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
@@ -62,11 +63,16 @@ export default function PayskulStudentLanding() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 flex items-center">
+                <Link to='/school'>
                 Register for Free
+                </Link>
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button className="px-8 py-4 border border-blue-500/50 rounded-xl text-lg font-semibold hover:bg-blue-500/10 transition-all">
+                <Link to='https://www.payskul.com/'>
+
                 Learn More
+                </Link>
               </button>
             </div>
 
@@ -154,7 +160,7 @@ export default function PayskulStudentLanding() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => (
               <div 
                 key={index}
@@ -172,7 +178,7 @@ export default function PayskulStudentLanding() {
       </section>
 
       {/* Payment Plans */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      {/* <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -226,9 +232,9 @@ export default function PayskulStudentLanding() {
                 Contact Us
               </button>
             </div>
-          </div>
-        </div>
-      </section>
+          </div> */}
+        {/* </div>
+      </section> */}
 
       {/* Testimonials */}
       {/* <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8">
@@ -281,7 +287,9 @@ export default function PayskulStudentLanding() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 cursor-default">
-                <a href='https://play.google.com/store/apps/details?id=ng.payskul.portal&hl=en-US'>Register Now - It's Free</a>
+                <Link to='/school'>
+                Register Now - It's Free
+                </Link>
               </button>
               <button className="px-6 py-4 border border-blue-500/50 rounded-xl text-lg font-semibold hover:bg-blue-500/10 transition-all cursor-default">
                 <a href='https://payskul.ng/contact' target='blank'>Speak to Our Team</a>
@@ -298,10 +306,12 @@ export default function PayskulStudentLanding() {
       <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
           {/* <div className="grid md:grid-cols-4 gap-8"> */}
-            <div>
+            <div className='flex flex-col gap-12'>
               <div className="flex items-center mb-4">
                 {/* <GraduationCap className="w-8 h-8 text-blue-400 mr-2" /> */}
+                <Link to='https://www.payskul.com/'>
                 <img src='icon.png' className='w-10 h-10'/>
+                </Link>
                 <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   Payskul
                 </span>
@@ -339,12 +349,12 @@ export default function PayskulStudentLanding() {
             </div>
           </div>
           <div className="border-t border-white/10 mt-12 pt-8 text-center text-gray-400"> */}
-            <p>&copy; 2025 Payskul. All rights reserved. | Empowering Nigerian Students</p>
+            <p className='pt-10'>&copy; 2025 Payskul. All rights reserved. | Empowering Nigerian Students</p>
           </div>
         {/* </div> */}
       </footer>
 
-      <style jsx>{`
+      {/* <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
@@ -358,7 +368,7 @@ export default function PayskulStudentLanding() {
         .animation-delay-2000 {
           animation-delay: 2s;
         }
-      `}</style>
+      `}</style> */}
     </div>
   );
 }

@@ -188,6 +188,9 @@ const MonoConnector = ({ customer,
         <div className="text-red-800 text-sm">{error}</div>
         <button
           onClick={() => window.location.reload()}
+          // onClick={handleOpenConnect}
+          // onClick={initiateAccountLinking}
+
           className="mt-2 text-red-600 underline text-sm hover:text-red-800"
         >
           Retry

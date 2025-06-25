@@ -304,7 +304,7 @@
 //             }
 
 //             const customerData = await customerResponse.json();
-            
+
 //             if (!customerData.id) {
 //                 throw new Error('Customer creation failed: No customer ID returned');
 //             }
@@ -368,7 +368,7 @@
 //         } catch (error) {
 //             // Log the full error for debugging
 //             console.error('Direct debit setup error:', error);
-            
+
 //             // Re-throw with more context
 //             if (error.message.includes('Failed to fetch')) {
 //                 throw new Error('Network error: Please check your internet connection and try again.');
@@ -610,7 +610,7 @@
 //             if (!customerResponse.ok) {
 //                 const errorText = await customerResponse.text();
 //                 console.error('❌ Customer creation failed:', errorText);
-                
+
 //                 let errorData;
 //                 try {
 //                     errorData = JSON.parse(errorText);
@@ -624,7 +624,7 @@
 
 //             const customerData = await customerResponse.json();
 //             console.log('✅ Customer created:', customerData);
-            
+
 //             if (!customerData.id) {
 //                 throw new Error('Customer creation failed: No customer ID returned');
 //             }
@@ -681,7 +681,7 @@
 //             if (!mandateResponse.ok) {
 //                 const errorText = await mandateResponse.text();
 //                 console.error('❌ Mandate creation failed:', errorText);
-                
+
 //                 let errorData;
 //                 try {
 //                     errorData = JSON.parse(errorText);
@@ -699,7 +699,7 @@
 //             // Check for successful response structure from docs
 //             if (mandateResult.status === 'successful' && mandateResult.data) {
 //                 const mandateData = mandateResult.data;
-                
+
 //                 // Step 3: Handle mandate authorization using mono_url from response
 //                 if (mandateData.mono_url) {
 //                     console.log('🔗 Opening authorization link:', mandateData.mono_url);
@@ -738,7 +738,7 @@
 //                 stack: error.stack,
 //                 formData: formData
 //             });
-            
+
 //             // Re-throw with more specific context
 //             if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
 //                 throw new Error('Network error: Please check your internet connection and try again.');
@@ -891,7 +891,7 @@ import { Shield, AlertCircle } from 'lucide-react';
 const ReviewConsent = ({ formData, handleInputChange, onSubmit }) => {
     const [checkboxError, setCheckboxError] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
-     const [customerExists, setCustomerExists] = useState(false);
+    const [customerExists, setCustomerExists] = useState(false);
 
     // Handle checkbox change with validation
     const handleCheckboxChange = (e) => {
@@ -908,11 +908,16 @@ const ReviewConsent = ({ formData, handleInputChange, onSubmit }) => {
         date.setDate(1); // Set to first day of next month
         return date.toISOString().split('T')[0];
     };
+    const getStartDate = () => {
+        const date = new Date(formData.repaymentDate);
+        return date.toISOString().split('T')[0];
+    }
 
     // Helper function to calculate loan end date (assuming 12 months for example)
     const getLoanEndDate = () => {
-        const date = new Date();
-        date.setMonth(date.getMonth() + 12); 
+        const date = new Date(formData.repaymentDate);
+        date.setMonth(date.getMonth() + (Number(formData.repaymentTerm) * 12));
+        console.log(date);
         return date.toISOString().split('T')[0];
     };
 
@@ -977,36 +982,36 @@ const ReviewConsent = ({ formData, handleInputChange, onSubmit }) => {
             if (!customerResponse.ok) {
                 const errorText = await customerResponse.text();
                 console.error('❌ Customer creation failed:', errorText);
-                
-                // let errorData;
-                // try {
-                //     errorData = JSON.parse(errorText);
-                // } catch (e) {
-                //     errorData = { message: errorText };
-                // }
 
-                // const errorMessage = errorData?.message || errorData?.error || `HTTP ${customerResponse.status}: Failed to create customer profile`;
+                let errorData;
+                try {
+                    errorData = JSON.parse(errorText);
+                } catch (e) {
+                    errorData = { message: errorText };
+                }
+
+                const errorMessage = errorData?.message || errorData?.error || `HTTP ${customerResponse.status}: Failed to create customer profile`;
                 // throw new Error(`Customer creation failed: ${errorMessage}`);
-                // if (errorMessage.toLowerCase().includes('customer already exists') || 
-                //     errorMessage.toLowerCase().includes('already exist')) {
-                //     console.log('ℹ️ Customer already exists, continuing with existing customer');
-                //     setCustomerExists(true);
-                // } else {
-                //     throw new Error(`Customer creation failed: ${errorMessage}`);
-                // }
+                if (errorMessage.toLowerCase().includes('customer already exists') ||
+                    errorMessage.toLowerCase().includes('already exist')) {
+                    console.log('ℹ️ Customer already exists, continuing with existing customer');
+                    setCustomerExists(true);
+                } else {
+                    throw new Error(`Customer creation failed: ${errorMessage}`);
+                }
             }
 
-           
+
             const customerData = await customerResponse.json();
             console.log('✅ Customer created:', customerData);
-            
+
             // if (!customerData.id) {
             //     throw new Error('Customer creation failed: No customer ID returned');
             // }
 
             // const customerId = customerData.data.id;
             // console.log(customerId);
-            
+
             let customerId;
             if (customerData.data) {
                 // Check if it's an existing customer
@@ -1023,7 +1028,7 @@ const ReviewConsent = ({ formData, handleInputChange, onSubmit }) => {
                 customerId = customerData.id;
                 console.log('📋 Using direct customer ID:', customerId);
             }
-            
+
             if (!customerId) {
                 throw new Error('Customer creation failed: No customer ID returned');
             }
@@ -1031,24 +1036,25 @@ const ReviewConsent = ({ formData, handleInputChange, onSubmit }) => {
 
             // Step 2: Create Direct Debit Mandate using correct endpoint and payload structure
             const mandateAmount = parseInt(formData.monthlyPayment.replace(/,/g, '')) * 100; // Convert to kobo
-            const startDate = getNextMonthDate();
+            // const startDate = getNextMonthDate();
+            const startDate = getStartDate();
             const endDate = getLoanEndDate();
             // const initialDate = new Date(formData.repaymentDate);
             const initialDate = new Date(startDate);
-initialDate.setDate(initialDate.getDate() + 1);
+            initialDate.setDate(initialDate.getDate() + 1);
             // const dateObj = new Date(selectedDate);
 
-            const minimumDebit = mandateAmount/2;
-            const num =1;
+            const minimumDebit = mandateAmount / 2;
+            const num = 1;
 
             const mandatePayload = {
                 type: "recurring-debit",
                 method: "mandate",
                 debit_type: "fixed",
                 mandate_type: "emandate",
-                customer:{
+                customer: {
                     id: customerId,
-                }, 
+                },
                 amount: mandateAmount,
                 reference: `loan${Date.now()}`,
                 description: `Monthly loan repayment for ${formData.program || 'education'} program`,
@@ -1087,7 +1093,7 @@ initialDate.setDate(initialDate.getDate() + 1);
             if (!mandateResponse.ok) {
                 const errorText = await mandateResponse.text();
                 console.error('❌ Mandate creation failed:', errorText);
-                
+
                 let errorData;
                 try {
                     errorData = JSON.parse(errorText);
@@ -1105,15 +1111,15 @@ initialDate.setDate(initialDate.getDate() + 1);
             // Handle the response according to Mono's response structure
             if (mandateResult.status === 'successful' || mandateResult.data) {
                 const mandateData = mandateResult.data || mandateResult;
-                
+
                 // Step 3: Handle mandate authorization
                 if (mandateData.authorization_url || mandateData.mono_url) {
                     const authUrl = mandateData.authorization_url || mandateData.mono_url;
                     console.log('🔗 Opening authorization link:', authUrl);
-                    
+
                     // Open mandate authorization in a new window
                     const authWindow = window.open(
-                        authUrl, 
+                        authUrl,
                         'mono-auth',
                         'width=500,height=700,scrollbars=yes,resizable=yes'
                     );
@@ -1161,10 +1167,10 @@ initialDate.setDate(initialDate.getDate() + 1);
                 stack: error.stack,
                 formData: formData
             });
-            
+
             // Provide user-friendly error messages
             let userMessage = error.message;
-            
+
             if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
                 userMessage = 'Network error: Please check your internet connection and try again.';
             } else if (error.message.includes('401') || error.message.includes('Unauthorized')) {
@@ -1178,7 +1184,7 @@ initialDate.setDate(initialDate.getDate() + 1);
             } else if (error.message.includes('500')) {
                 userMessage = 'Server error: Please try again later or contact support.';
             }
-            
+
             throw new Error(userMessage);
         }
     };

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Header = () => {
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    // const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrollY, setScrollY] = useState(0);
 
     useEffect(() => {
@@ -29,7 +29,9 @@ const Header = () => {
                     <div className="flex items-center py-4 justify-between">
                         <div className="flex items-center">
                             {/* <GraduationCap className="w-8 h-8 text-blue-400 mr-2" /> */}
+                            <Link to='https://www.payskul.com/'>
                             <img src='icon.png' className='w-10 h-10' />
+                            </Link>
                             <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                                 Payskul
                             </span>
@@ -56,37 +58,37 @@ const Header = () => {
                         </div>
 
                         {/* Mobile Menu Button */}
-                        <button
+                        {/* <button
                             className="md:hidden"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
                             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                        </button>
+                        </button> */}
                     </div>
                 </div>
 
                 {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <div className="md:hidden bg-blue-900/95 backdrop-blur-md">
-                        <div className="px-2 pt-2 pb-3 space-y-1">
+                {/* {isMenuOpen && ( */}
+                    {/* <div className="md:hidden bg-blue-900/95 backdrop-blur-md">
+                        <div className="px-2 pt-2 pb-3 space-y-1"> */}
                             {/* <a href="#how-it-works" className="block px-3 py-2 hover:text-blue-400">How It Works</a>
               <a href="#benefits" className="block px-3 py-2 hover:text-blue-400">Benefits</a>
               <a href="#testimonials" className="block px-3 py-2 hover:text-blue-400">Students Say</a>
               <a href="#faq" className="block px-3 py-2 hover:text-blue-400">FAQ</a> */}
-                            <div className="border-t border-gray-700 mt-2 pt-2">
+                            {/* <div className="border-t border-gray-700 mt-2 pt-2">
                                 <button className="block w-full text-left px-3 py-2 text-blue-400">
                                     <a href='https://www.payskul.com' target="_blank" rel="noopener noreferrer">Sign In</a> </button>
-                                <button className="block w-full text-left px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg mt-2">
+                                <button className="block w-full text-left px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg mt-2"> */}
                                     {/* Register Now</button> */}
                                 {/* <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"> */}
-                                    <Link to='/school'>
+                                    {/* <Link to='/school'>
                                         Register Now
                                     </Link>
                                 </button>
                             </div>
                         </div>
-                    </div>
-                )}
+                    </div> */}
+                {/* )} */}
             </nav>
         </div>
     )
