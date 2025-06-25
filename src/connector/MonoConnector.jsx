@@ -34,7 +34,7 @@ const MonoConnector = ({ customer,
         ref: `${customer.email.replace('@', '_')}_${Date.now()}`
       },
       scope: "auth",
-      redirect_url: window.location.origin,
+      redirect_url: 'https://payskul.com',
       // }
   };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Upload, User, GraduationCap, DollarSign, FileText, CreditCard, Shield, CheckCircle, Check, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { Upload, User, GraduationCap, DollarSign, FileText, CreditCard, Shield, CheckCircle, Check, ChevronLeft, ChevronRight, ExternalLink, UserCheck } from 'lucide-react';
 import MonoConnector from '../connector/MonoConnector';
+import ReviewConsent from '../connector/ReviewConsent';
 
 // Step Components
 const PersonalInformation = ({ formData, handleInputChange, imagePreview, handleImageUpload }) => (
@@ -243,7 +244,9 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                     value={formData.loanAmount || ''}
                     onChange={(e) => {
                         handleInputChange(e);
-                        setTimeout(calculateMonthlyPayment, 100);
+                        // setTimeout(calculateMonthlyPayment, 100);
+                        calculateMonthlyPayment(formData.repaymentTerm, e.target.value);
+
                     }}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     placeholder="Enter loan amount"
@@ -285,7 +288,9 @@ const Fees = ({ formData, handleInputChange, calculateMonthlyPayment }) => (
                     value={formData.repaymentTerm || ''}
                     onChange={(e) => {
                         handleInputChange(e);
-                        setTimeout(calculateMonthlyPayment, 100);
+                        calculateMonthlyPayment(formData.loanAmount, e.target.value);
+
+                        // setTimeout(calculateMonthlyPayment, 300);
                     }}
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
@@ -475,9 +480,9 @@ const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess
                             <CheckCircle className="w-5 h-5 mr-2" />
                             <span className="font-semibold">Bank Account Connected Successfully</span>
                         </div>
-                        <p className="text-white/80">
+                        {/* <p className="text-white/80">
                             Account: {formData.accountName} - {formData.bankName}
-                        </p>
+                        </p> */}
                     </div>
                 )}
             </div>
@@ -485,71 +490,71 @@ const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess
     );
 }
 
-const ReviewConsent = ({ formData, handleInputChange }) => (
-    <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-white mb-6">Review & Consent</h2>
+// const ReviewConsent = ({ formData, handleInputChange }) => (
+//     <div className="space-y-6">
+//         <h2 className="text-2xl font-bold text-white mb-6">Review & Consent</h2>
 
-        <div className="bg-white/5 rounded-lg p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Application Summary</h3>
+//         <div className="bg-white/5 rounded-lg p-6 space-y-4">
+//             <h3 className="text-lg font-semibold text-white mb-4">Application Summary</h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
-                    <span className="text-white/70">Name:</span>
-                    <span className="text-white ml-2">{formData.firstName} {formData.lastName}</span>
-                </div>
-                <div>
-                    <span className="text-white/70">Email:</span>
-                    <span className="text-white ml-2">{formData.email}</span>
-                </div>
-                <div>
-                    <span className="text-white/70">Institution:</span>
-                    <span className="text-white ml-2">{formData.institution}</span>
-                </div>
-                <div>
-                    <span className="text-white/70">Program:</span>
-                    <span className="text-white ml-2">{formData.program}</span>
-                </div>
-                <div>
-                    <span className="text-white/70">Loan Amount:</span>
-                    <span className="text-white ml-2">₦{formData.loanAmount}</span>
-                </div>
-                <div>
-                    <span className="text-white/70">Monthly Payment:</span>
-                    <span className="text-white ml-2">₦{formData.monthlyPayment}</span>
-                </div>
-            </div>
-        </div>
+//             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+//                 <div>
+//                     <span className="text-white/70">Name:</span>
+//                     <span className="text-white ml-2">{formData.firstName} {formData.lastName}</span>
+//                 </div>
+//                 <div>
+//                     <span className="text-white/70">Email:</span>
+//                     <span className="text-white ml-2">{formData.email}</span>
+//                 </div>
+//                 <div>
+//                     <span className="text-white/70">Institution:</span>
+//                     <span className="text-white ml-2">{formData.institution}</span>
+//                 </div>
+//                 <div>
+//                     <span className="text-white/70">Program:</span>
+//                     <span className="text-white ml-2">{formData.program}</span>
+//                 </div>
+//                 <div>
+//                     <span className="text-white/70">Loan Amount:</span>
+//                     <span className="text-white ml-2">₦{formData.loanAmount}</span>
+//                 </div>
+//                 <div>
+//                     <span className="text-white/70">Monthly Payment:</span>
+//                     <span className="text-white ml-2">₦{formData.monthlyPayment}</span>
+//                 </div>
+//             </div>
+//         </div>
 
-        <div className="bg-yellow-600/20 border border-yellow-400/30 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
-                <Shield className="w-5 h-5 mr-2" />
-                Automatic Debit Authorization
-            </h3>
+//         <div className="bg-yellow-600/20 border border-yellow-400/30 rounded-lg p-6">
+//             <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
+//                 <Shield className="w-5 h-5 mr-2" />
+//                 Automatic Debit Authorization
+//             </h3>
 
-            <div className="space-y-4">
-                <p className="text-white/90 text-sm leading-relaxed">
-                    By checking the box below, you authorize automatic monthly deductions from your connected bank account
-                    for loan repayments. This ensures timely payments and helps maintain your good credit standing.
-                </p>
+//             <div className="space-y-4">
+//                 <p className="text-white/90 text-sm leading-relaxed">
+//                     By checking the box below, you authorize automatic monthly deductions from your connected bank account
+//                     for loan repayments. This ensures timely payments and helps maintain your good credit standing.
+//                 </p>
 
-                <div className="flex items-start space-x-3">
-                    <input
-                        type="checkbox"
-                        id="autoDebitConsent"
-                        name="autoDebitConsent"
-                        checked={formData.autoDebitConsent || false}
-                        onChange={handleInputChange}
-                        className="mt-1 w-5 h-5 text-purple-600 bg-white/10 border-white/20 rounded focus:ring-purple-500 focus:ring-2"
-                    />
-                    <label htmlFor="autoDebitConsent" className="text-white text-sm leading-relaxed">
-                        I authorize automatic debit of monthly loan payments from my connected bank account.
-                        I understand that I can modify or cancel this authorization by contacting customer service.
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-);
+//                 <div className="flex items-start space-x-3">
+//                     <input
+//                         type="checkbox"
+//                         id="autoDebitConsent"
+//                         name="autoDebitConsent"
+//                         checked={formData.autoDebitConsent || false}
+//                         onChange={handleInputChange}
+//                         className="mt-1 w-5 h-5 text-purple-600 bg-white/10 border-white/20 rounded focus:ring-purple-500 focus:ring-2"
+//                     />
+//                     <label htmlFor="autoDebitConsent" className="text-white text-sm leading-relaxed">
+//                         I authorize automatic debit of monthly loan payments from my connected bank account.
+//                         I understand that I can modify or cancel this authorization by contacting customer service.
+//                     </label>
+//                 </div>
+//             </div>
+//         </div>
+//     </div>
+// );
 
 // Success Page Component
 const SuccessPage = () => (
@@ -740,7 +745,8 @@ const StudentLoan = () => {
         { id: 3, title: 'Loan Details', icon: DollarSign },
         { id: 4, title: 'Financial Info', icon: FileText },
         { id: 5, title: 'Bank Account', icon: CreditCard },
-        { id: 6, title: 'Review & Submit', icon: CheckCircle }
+        { id: 6, title: 'Review & Submit', icon: CheckCircle },
+        { id: 7, title: 'Success', icon: UserCheck },
     ];
 
     const stepValidations = {
@@ -806,72 +812,68 @@ const StudentLoan = () => {
             });
     }, []);
 
+    useEffect(() => {
+        calculateMonthlyPayment();
+    }, [formData.loanAmount, formData.repaymentTerm]);
+
+
+    const calculateMonthlyPayment = () => {
+        const loanAmount = parseFloat(formData.loanAmount) || 0;
+        const annualInterestRate = 0.07;
+        const repaymentPeriodInMonths = (parseFloat(formData.repaymentTerm) || 0) * 12;
+        //const monthlyInterest = (7/100) * loanAmount
+        //const repayment = (loanAmount/repaymentPeriodInMonths) + monthlyInterest
+
+        if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
+            //  const monthlyInterestRate = annualInterestRate / 12;
+            //  const monthlyRepayment = loanAmountNum * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths)) / 
+            // (Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths) - 1);
+
+            const monthlyRepayment = loanAmount * (annualInterestRate * Math.pow(1 + annualInterestRate, repaymentPeriodInMonths)) / (Math.pow(1 + annualInterestRate, repaymentPeriodInMonths) - 1);
+
+            setFormData(prev => ({
+                ...prev,
+                monthlyPayment: monthlyRepayment.toFixed(2)
+            }));
+            console.log(monthlyRepayment)
+            console.log('Loan Amount:', loanAmount, typeof loanAmount);
+            console.log('Repayment Period in Months:', repaymentPeriodInMonths);
+            console.log('Annual Interest Rate:', annualInterestRate);
+        } else {
+            // Reset if invalid inputs
+            setFormData(prev => ({
+                ...prev,
+                monthlyPayment: ''
+            }));
+        }
+    };
 
     // const calculateMonthlyPayment = () => {
-    //     const principal = parseFloat(formData.loanAmount) || 0;
-    //     const rate = 0.7; // 7% annual rate
-    //     const term = (parseFloat(formData.repaymentTerm) || 0) * 12;
-    //     console.log(term)
+    //     const loanAmount = parseFloat(formData.loanAmount) || 0;
+    //     const annualInterestRate = 0.07; // 7% annual interest rate
+    //     const monthlyInterestRate = annualInterestRate / 12;
 
-    //     if (principal && rate && term) {
-    //         const monthlyPayment = (principal * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
+    //     // Extract number from repayment term (handles "1 Year", "2 Years", or just "1", "2")
+    //     const termText = formData.repaymentTerm || '';
+    //     const repaymentYears = parseInt(termText.match(/\d+/)?.[0]) || 0;
+    //     const repaymentPeriodInMonths = repaymentYears * 12;
+
+    //     if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
+    //         const monthlyRepayment = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths)) / 
+    //                                 (Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths) - 1);
+
     //         setFormData(prev => ({
     //             ...prev,
-    //             monthlyPayment: monthlyPayment.toFixed(2)
+    //             monthlyRepayment: monthlyRepayment.toFixed(2)
+    //         }));
+    //         console.log(monthlyRepayment);
+    //     } else {
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             monthlyRepayment: ''
     //         }));
     //     }
     // };
-    const calculateMonthlyPayment = () => {
-    const loanAmount = parseFloat(formData.loanAmount) || 0;
-    const annualInterestRate = 0.07; // 7% annual interest rate
-    // const monthlyInterestRate = annualInterestRate / 12;
-    const repaymentPeriodInMonths = (parseFloat(formData.repaymentTerm) || 0) * 12;
-
-    if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
-        // Standard loan repayment formula: M = P * [r(1+r)^n] / [(1+r)^n - 1]
-        const monthlyRepayment = (loanAmount * annualInterestRate * Math.pow(1 + annualInterestRate, repaymentPeriodInMonths)) / 
-                                (Math.pow(1 + annualInterestRate, repaymentPeriodInMonths) - 1);
-        
-        setFormData(prev => ({
-            ...prev,
-            monthlyRepayment: monthlyRepayment.toFixed(2)
-        }));
-        console.log(monthlyRepayment)
-    } else {
-        // Reset if invalid inputs
-        setFormData(prev => ({
-            ...prev,
-            monthlyRepayment: ''
-        }));
-    }
-};
-
-// const calculateMonthlyPayment = () => {
-//     const loanAmount = parseFloat(formData.loanAmount) || 0;
-//     const annualInterestRate = 0.07; // 7% annual interest rate
-//     const monthlyInterestRate = annualInterestRate / 12;
-    
-//     // Extract number from repayment term (handles "1 Year", "2 Years", or just "1", "2")
-//     const termText = formData.repaymentTerm || '';
-//     const repaymentYears = parseInt(termText.match(/\d+/)?.[0]) || 0;
-//     const repaymentPeriodInMonths = repaymentYears * 12;
-
-//     if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
-//         const monthlyRepayment = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths)) / 
-//                                 (Math.pow(1 + monthlyInterestRate, repaymentPeriodInMonths) - 1);
-        
-//         setFormData(prev => ({
-//             ...prev,
-//             monthlyRepayment: monthlyRepayment.toFixed(2)
-//         }));
-//         console.log(monthlyRepayment);
-//     } else {
-//         setFormData(prev => ({
-//             ...prev,
-//             monthlyRepayment: ''
-//         }));
-//     }
-// };
     const isStepValid = (step) => {
         const requiredFields = stepValidations[step] || [];
         const hasRequiredFields = requiredFields.every(field => formData[field]?.toString().trim());
@@ -987,6 +989,10 @@ const StudentLoan = () => {
                         handleInputChange={handleInputChange}
                     />
                 );
+            case 7:
+                return (
+                    <SuccessPage />
+                );
             default:
                 return (
                     <PersonalInformation
@@ -1015,6 +1021,8 @@ const StudentLoan = () => {
                         {renderCurrentStep()}
                     </div>
 
+    {currentStep < steps.length && (
+
                     <NavigationButtons
                         currentStep={currentStep}
                         totalSteps={steps.length}
@@ -1023,6 +1031,7 @@ const StudentLoan = () => {
                         onSubmit={handleSubmit}
                         isStepValid={isStepValid(currentStep)}
                     />
+    )}
                 </div>
             </div>
         </div>
