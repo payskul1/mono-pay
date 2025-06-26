@@ -24,6 +24,7 @@ function App() {
       element: <RootLayout />,
       children: [
         { path: "/school", element: <StudentLoan /> },
+        { path: '/payment-success', element: <p className='text-5xl text-purple-900 font-bold'>Success</p>},
 
 
         { index: true, element: <PayskulStudentLanding /> },
