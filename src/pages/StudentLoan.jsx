@@ -482,7 +482,8 @@ const Financial = ({ formData, handleInputChange }) => (
 );
 
 const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess, handleError, handleClose }) => {
-    const pubKey = "test_pk_vulwcz9yw9kqdtvua5q4";
+    // const pubKey = "test_pk_vulwcz9yw9kqdtvua5q4";
+    const pubKey = "live_pk_i3leseavd81l6zugupsq";
     //   const [bvn, set]
     const customer = {
         // id: "65c31fa54e0e963044f014bb",

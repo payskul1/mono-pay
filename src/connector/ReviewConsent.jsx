@@ -6,7 +6,7 @@ import { Shield, AlertCircle } from 'lucide-react';
 
 const API_BASE_URL = 'https://api.withmono.com';
 // IMPORTANT: For production, this key must be kept on a backend server.
-const SECRET_KEY = 'test_sk_b70y8f5d7cc04nj27fj1';
+const SECRET_KEY = 'live_sk_f6cgvt4md9o6e2h0x2ho';
 
 const monoApiService = {
   /**
