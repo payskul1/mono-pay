@@ -559,7 +559,7 @@ const SuccessPage = () => (
         <div>
             <h2 className="text-3xl font-bold text-white mb-4">Account Successfully Linked!</h2>
             <p className="text-purple-200 text-lg mb-2">
-                Your student loan application has been submitted successfully.
+                Your student fee application has been submitted successfully.
             </p>
             <p className="text-purple-300 text-sm">
                 You will receive an email confirmation shortly with your application details.

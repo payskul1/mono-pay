@@ -129,6 +129,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
       const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1); // Tomorrow
       const mandateAmount = Number(formData.monthlyPayment) * 100;
+      const minimumDue = mandateAmount / 2;
       console.log("Amount ", mandateAmount);
       const mandatePayload = {
         type: "recurring-debit",
@@ -139,7 +140,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         // Hard-coded values from your working Python script
         amount: mandateAmount,               // ₦20,000 in Kobo
         initial_debit_amount: mandateAmount,  // Must be <= amount and >= 20000
-        minimum_due: 500000,            // ₦5,000 in Kobo (must be an integer)
+        minimum_due: minimumDue,            
         frequency: "monthly",
         grace_period: 6,
         retrial_frequency: 1,
