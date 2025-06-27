@@ -611,7 +611,7 @@ const StepIndicator = ({ steps, currentStep }) => (
                         <step.icon className="w-5 h-5" />
                     )}
                 </div>
-                <span className={`text-xs text-center ${currentStep >= step.id ? 'text-white' : 'text-white/50'
+                <span className={`text-xs text-center hidden lg:flex ${currentStep >= step.id ? 'text-white' : 'text-white/50'
                     }`}>
                     {step.title}
                 </span>
@@ -633,12 +633,12 @@ const StepIndicator = ({ steps, currentStep }) => (
 );
 
 const NavigationButtons = ({ currentStep, totalSteps, onPrevious, onNext, onSubmit, isStepValid }) => (
-    <div className="flex justify-between mt-8">
+    <div className="grid grid-cols-2 justify-between mt-8 lg:flex">
         <button
             type="button"
             onClick={onPrevious}
             disabled={currentStep === 1}
-            className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center ${currentStep === 1
+            className={`px-4 py-3 mr-2 rounded-xl font-medium transition-all duration-300 flex items-center ${currentStep === 1
                 ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
                 : 'bg-purple-600 text-white hover:bg-purple-700 hover:scale-105'
                 }`}
@@ -660,7 +660,7 @@ const NavigationButtons = ({ currentStep, totalSteps, onPrevious, onNext, onSubm
             <button
                 type="button"
                 onClick={onSubmit}
-                className="px-8 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all duration-300 flex items-center hover:scale-105"
+                className="px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 transition-all duration-300 flex items-center hover:scale-105"
             >
                 <Check className="w-5 h-5 mr-2" />
                 Complete Registration
@@ -1277,14 +1277,14 @@ const renderCurrentStep = () => {
 };
 
 return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-8 rounded-lg">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-4 rounded-lg">
         <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
+            <div className="text-center mb-8 mt-4">
                 <h1 className="text-4xl font-bold text-white mb-2">Student Registration</h1>
                 <p className="text-purple-200">Complete your profile to get started</p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 lg:p-8 shadow-2xl border border-white/20">
                 <StepIndicator steps={steps} currentStep={currentStep} />
 
                 <div className="min-h-[500px]">

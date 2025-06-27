@@ -50,13 +50,13 @@ export default function PayskulStudentLanding() {
               <span className="text-sm">Trusted by Thousands of Nigerian Students</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
+            <h1 className="lg:text-5xl text-3xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-300 to-purple-300 bg-clip-text text-transparent">
               Don't Let Fees
               <br />
               <span className="text-blue-400">Stop Your Dreams</span>
             </h1>
             
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="lg:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               Register with Payskul and get your school fees covered with flexible payment plans. 
               Pay in installments that work for you and focus on what matters most - your education.
             </p>
@@ -160,7 +160,7 @@ export default function PayskulStudentLanding() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 px-4">
             {benefits.map((benefit, index) => (
               <div 
                 key={index}
@@ -276,9 +276,9 @@ export default function PayskulStudentLanding() {
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-3xl p-12 border border-blue-500/20">
+          <div className="bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-3xl lg:p-12 border border-blue-500/20">
             <GraduationCap className="w-16 h-16 text-blue-400 mx-auto mb-6" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
               Your Education Shouldn't Wait
             </h2>
             <p className="text-xl text-gray-300 mb-8">
@@ -286,7 +286,7 @@ export default function PayskulStudentLanding() {
               Join thousands of students who are already on their path to success with Payskul.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 cursor-default">
+              <button className="px- py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 cursor-default">
                 <Link to='/school'>
                 Register Now - It's Free
                 </Link>
