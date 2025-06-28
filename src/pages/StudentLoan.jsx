@@ -483,7 +483,7 @@ const Financial = ({ formData, handleInputChange }) => (
 
 const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess, handleError, handleClose }) => {
     // const pubKey = "test_pk_vulwcz9yw9kqdtvua5q4";
-    const pubKey = "live_pk_i3leseavd81l6zugupsq";
+    const pubKey = "live_pk_g8pqod3pkbkwds5mmi2i";
     const customerName = formData.firstName + formData.lastName;
     const customerEmail = formData.email;
     //   const [bvn, set]

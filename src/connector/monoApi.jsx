@@ -1,7 +1,9 @@
 const API_BASE_URL = 'https://api.withmono.com';
 // IMPORTANT: In a real application, this secret key MUST be handled on your backend.
 // Exposing it in the frontend is a major security risk. This is for demonstration only.
-const SECRET_KEY = 'test_sk_b70y8f5d7cc04nj27fj1';
+// const SECRET_KEY = 'test_sk_b70y8f5d7cc04nj27fj1';
+const SECRET_KEY = 'live_sk_aowc558p7xm9my7bf4oi';
+
 
 /**
  * Creates a new customer or retrieves the ID if the customer already exists.

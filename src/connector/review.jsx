@@ -49,7 +49,7 @@ const ReviewConsent = ({ formData, handleInputChange, onSubmit }) => {
     const setupDirectDebit = async () => {
         const API_BASE_URL = 'https://api.withmono.com';
         // Note: In production, this should be your actual secret key and stored securely
-        const SECRET_KEY = 'test_sk_b70y8f5d7cc04nj27fj1';
+        const SECRET_KEY = 'live_sk_aowc558p7xm9my7bf4oi';
 
         console.log('🚀 Starting direct debit setup using official Mono API...');
         console.log('📋 Form data:', {

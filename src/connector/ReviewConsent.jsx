@@ -89,8 +89,6 @@ const monoApiService = {
 };
 
 
-// --- React Component (Main Application Logic) ---
-
 const ReviewConsent = ({ formData, onSubmit }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
@@ -101,10 +99,6 @@ const ReviewConsent = ({ formData, onSubmit }) => {
     if (e.target.checked) setError(null);
   };
 
-  /**
-   * Main function to handle the entire authorization flow.
-   * This mirrors the `if __name__ == "__main__":` block in the Python script.
-   */
   const handleAuthorizeAndSubmit = async () => {
     if (!consentChecked) {
       setError('You must authorize automatic debit to proceed.');
@@ -115,15 +109,11 @@ const ReviewConsent = ({ formData, onSubmit }) => {
     setError(null);
 
     try {
-      // Step 1: Create or Get Customer ID
-      // This uses the form data passed in as a prop.
-      // Ensure formData contains all necessary fields like bvn.
+  
       if (!formData.bvn) throw new Error("BVN is a required field.");
       
       const customerId = await monoApiService.createOrGetCustomer(formData);
 
-      // Step 2: Build the Mandate Payload
-      // This mirrors the `build_mandate_payload` function with hard-coded, valid values.
       const formatDateForAPI = (date) => date.toISOString().split('T')[0];
       const startDate = new Date();
       const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
@@ -137,14 +127,12 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         mandate_type: "gsm",
         customer: { id: customerId },
 
-        // Hard-coded values from your working Python script
-        amount: mandateAmount,               // ₦20,000 in Kobo
+        amount: mandateAmount,              
         initial_debit_amount: mandateAmount,  // Must be <= amount and >= 20000
         minimum_due: minimumDue,            
         frequency: "monthly",
         grace_period: 6,
         retrial_frequency: 1,
-        // Dynamic but safe values
         reference: `fee${Date.now()}`,
         description: `Monthly fee repayment for ${formData.program || 'education'} program`,
         start_date: formatDateForAPI(startDate),
