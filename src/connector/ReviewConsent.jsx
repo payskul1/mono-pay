@@ -53,7 +53,7 @@ const monoApiService = {
         return existingId;
       }
     }
-    
+
     // For all other errors, throw a clear message.
     throw new Error(result.message || 'Failed to process customer profile.');
   },
@@ -81,7 +81,7 @@ const monoApiService = {
       console.log('Mandate initiated successfully.');
       return result.data;
     }
-    
+
     // Extract detailed error message from validation failures
     const errorMessage = result.data?.[0]?.message || result.message || 'Mandate creation failed.';
     throw new Error(errorMessage);
@@ -109,12 +109,18 @@ const ReviewConsent = ({ formData, onSubmit }) => {
     setError(null);
 
     try {
-  
+
       if (!formData.bvn) throw new Error("BVN is a required field.");
-      
+
       const customerId = await monoApiService.createOrGetCustomer(formData);
 
-      const formatDateForAPI = (date) => date.toISOString().split('T')[0];
+      // const formatDateForAPI = (date) => date.toISOString().split('T')[0];
+      const formatDateForAPI = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
       const startDate = new Date();
       const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
       const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1); // Tomorrow
@@ -127,9 +133,9 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         mandate_type: "gsm",
         customer: { id: customerId },
 
-        amount: mandateAmount,              
+        amount: mandateAmount,
         initial_debit_amount: mandateAmount,  // Must be <= amount and >= 20000
-        minimum_due: minimumDue,            
+        minimum_due: minimumDue,
         frequency: "monthly",
         grace_period: 6,
         retrial_frequency: 1,
@@ -140,8 +146,8 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         initial_debit_date: formatDateForAPI(initialDebitDate),
         redirect_url: `${window.location.origin}/payment-success`,
         meta: {
-            loan_program: formData.program,
-            application_id: `APP_${Date.now()}`,
+          loan_program: formData.program,
+          application_id: `APP_${Date.now()}`,
         },
       };
 
@@ -170,7 +176,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-white mb-6">Review & Consent</h2>
-      
+
       {/* --- UI Elements --- */}
       {/* ... Your JSX for Application Summary ... */}
 
