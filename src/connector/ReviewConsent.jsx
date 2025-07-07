@@ -129,7 +129,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       // const mandateAmount = Math.round(formData.monthlyPayment) * 100;
 
       // const minimumDue = mandateAmount / 2;
-      const minimumDue = Number(mandateAmount / 2);
+      const minimumDue = Math.ceil(mandateAmount / 2);
       console.log("Amount ", mandateAmount);
       const mandatePayload = {
         type: "recurring-debit",
