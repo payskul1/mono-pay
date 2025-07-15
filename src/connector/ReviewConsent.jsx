@@ -124,7 +124,9 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       };
       const startDate = new Date();
       const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
-      const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1); // Tomorrow
+      // const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1); // Tomorrow
+      const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+
       const mandateAmount = Number(formData.monthlyPayment) * 100;
       // const mandateAmount = Math.round(formData.monthlyPayment) * 100;
 
