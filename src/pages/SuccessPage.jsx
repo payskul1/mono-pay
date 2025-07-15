@@ -88,7 +88,7 @@ const SuccessPage = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-row gap-4 justify-center">
           <button className="group bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-600 hover:to-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
             <span className="flex items-center justify-center gap-2">
               <a href='https://payskul.com/'>Continue</a>
@@ -107,7 +107,7 @@ const SuccessPage = () => {
         {/* Footer Message */}
         <div className="mt-12 text-center">
           <p className="text-gray-500 text-sm">
-            Need help? <span className="text-purple-600 hover:text-purple-700 cursor-pointer underline">Contact support</span>
+            Need help? <span className="text-purple-600 hover:text-purple-700 cursor-pointer underline"> <a href='https://payskul.com/contact'>Contact support</a></span>
           </p>
         </div>
       </div>
