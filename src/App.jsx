@@ -5,6 +5,7 @@ import PayskulStudentLanding from './pages/forStudent'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './pages/layout';
 import StudentLoan from './pages/StudentLoan';
+import SuccessPage from './pages/SuccessPage';
 
 function App() {
    useEffect(() => {
@@ -24,7 +25,7 @@ function App() {
       element: <RootLayout />,
       children: [
         { path: "/school", element: <StudentLoan /> },
-        { path: '/payment-success', element: <p className='text-5xl text-purple-900 font-bold'>Success</p>},
+        { path: '/payment-success', element: <SuccessPage />},
 
 
         { index: true, element: <PayskulStudentLanding /> },
