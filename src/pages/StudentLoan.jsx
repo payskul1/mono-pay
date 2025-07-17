@@ -762,7 +762,7 @@ const StudentLoan = () => {
 
     const stepValidations = {
         1: ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth', 'address', 'state'],
-        2: ['studentId', 'institution', 'program', 'year'],
+        2: ['studentId', 'institution', 'program'],
         3: ['loanAmount', 'repaymentTerm'],
         4: ['bvn'],
         5: ['autoDebitConsent']
@@ -786,19 +786,36 @@ const StudentLoan = () => {
         }));
 
         // Clear validation errors when user starts typing
-        if (validationErrors[name]) {
-            setValidationErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
-        }
+        // if (validationErrors[name]) {
+        //     setValidationErrors(prev => ({
+        //         ...prev,
+        //         [name]: ''
+        //     }));
+        // }
 
         // Validate student data when studentId or loanAmount changes
-        if (name === 'studentId' || name === 'loanAmount') {
-            setTimeout(() => {
-                validateStudentDataAsync(name === 'studentId' ? newValue : formData.studentId, 
-                                       name === 'loanAmount' ? newValue : formData.loanAmount);
-            }, 500);
+        // if (name === 'studentId' || name === 'loanAmount') {
+        //     setTimeout(() => {
+        //         validateStudentDataAsync(name === 'studentId' ? newValue : formData.studentId, 
+        //                                name === 'loanAmount' ? newValue : formData.loanAmount);
+        //     }, 500);
+        // }
+
+        if (type === 'checkbox') {
+            setFormData(prev => ({
+                ...prev,
+                [name]: checked
+            }));
+        } else if (type === 'file') {
+            setFormData(prev => ({
+                ...prev,
+                [name]: files[0]
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
         }
     };
 
@@ -806,10 +823,10 @@ const StudentLoan = () => {
         const file = e.target.files[0];
         if (file) {
             // Validate file type
-            if (!file.type.startsWith('image/')) {
-                setError('Please select a valid image file');
-                return;
-            }
+            // if (!file.type.startsWith('image/')) {
+            //     setError('Please select a valid image file');
+            //     return;
+            // }
 
             // Validate file size (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
@@ -895,21 +912,34 @@ const StudentLoan = () => {
         calculateMonthlyPayment();
     }, [formData.loanAmount, formData.repaymentTerm]);
 
-    const calculateMonthlyPayment = () => {
+    // const calculateMonthlyPayment = () => {
+    //     const loanAmount = parseFloat(formData.loanAmount) || 0;
+    //     const repaymentPeriodInMonths = (parseFloat(formData.repaymentTerm) || 0) * 12;
+        
+    //     if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
+    //         const interestRate = 0.165; // 16.5% annual interest
+    //         const totalRepayment = loanAmount * (1 + (interestRate * parseFloat(formData.repaymentTerm)));
+    //         const monthlyRepayment = totalRepayment / repaymentPeriodInMonths;
+
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             monthlyPayment: monthlyRepayment.toFixed(2)
+    //         }));
+    //     }
+    // };
+     const calculateMonthlyPayment = () => {
         const loanAmount = parseFloat(formData.loanAmount) || 0;
         const repaymentPeriodInMonths = (parseFloat(formData.repaymentTerm) || 0) * 12;
-        
         if (loanAmount > 0 && repaymentPeriodInMonths > 0) {
-            const interestRate = 0.165; // 16.5% annual interest
-            const totalRepayment = loanAmount * (1 + (interestRate * parseFloat(formData.repaymentTerm)));
-            const monthlyRepayment = totalRepayment / repaymentPeriodInMonths;
+            const monthlyRepayment = loanAmount / repaymentPeriodInMonths;
 
             setFormData(prev => ({
                 ...prev,
                 monthlyPayment: monthlyRepayment.toFixed(2)
             }));
         }
-    };
+
+    }
 
     const isStepValid = (step) => {
         const requiredFields = stepValidations[step] || [];

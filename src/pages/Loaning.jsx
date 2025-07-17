@@ -255,8 +255,13 @@ const StudentLoan = () => {
 
     const isStepValid = (step) => {
         const requiredFields = stepValidations[step] || [];
-        const hasRequiredFields = requiredFields.every(field => formData[field]?.toString().trim());
+        // const hasRequiredFields = requiredFields.every(field => formData[field]?.toString().trim());
 
+        const hasRequiredFields = requiredFields.every(field => {
+            const value = formData[field];
+            return value !== null && value !== undefined && value.toString().trim() !== '';
+        });
+        
         if (step === 4) { // Changed from 5 to 4 since BankAccount is now step 4
             return hasRequiredFields && bankConnected;
         }
