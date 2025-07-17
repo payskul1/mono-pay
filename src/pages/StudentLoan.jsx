@@ -1009,10 +1009,12 @@ const StudentLoan = () => {
             
             const result = await createLoanApplication(formData);
             
+            
             if (result.success) {
                 setMessage('Loan application submitted successfully!');
                 setApplicationId(result.applicationId);
                 setSubmissionSuccess(true);
+                console.log("Firestore Document written with ID: ", result.id);
                 
                 // Move to success page
                 setCurrentStep(6);

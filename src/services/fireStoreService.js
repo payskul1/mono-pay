@@ -13,7 +13,8 @@ import {
   serverTimestamp,
   onSnapshot,
   limit, 
-  writeBatch
+  writeBatch,
+  setDoc
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../connector/firebaseConnector';
@@ -50,7 +51,10 @@ export const createLoanApplication = async (formData) => {
     };
 
     // Add document to Firestore
-    const docRef = await addDoc(collection(db, COLLECTION_NAME), dataToSave);
+    const docRef = await setDoc(doc(db, COLLECTION_NAME), dataToSave);
+
+    // const docRef = await addDoc(collection(db, COLLECTION_NAME), dataToSave);
+    console.log("Firestore Document written with ID: ", docRef.id);
     
     // Send notification email (you can implement this)
     await sendApplicationNotification(dataToSave);
