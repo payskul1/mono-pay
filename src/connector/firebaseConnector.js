@@ -1,7 +1,8 @@
 import React from 'react'
 import { initializeApp } from "firebase/app";
-// import firebase from 'firebase/compat/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 
 const firebaseConfig = {
@@ -16,4 +17,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Initialize Auth
+export const auth = getAuth();
+
+// Initialize Storage (for file uploads)
+export const storage = getStorage(app);
 export const db = getFirestore(app);
+
+export default app;

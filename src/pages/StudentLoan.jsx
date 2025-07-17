@@ -4,6 +4,7 @@ import MonoConnector from '../connector/MonoConnector';
 import ReviewConsent from '../connector/ReviewConsent';
 import { db } from '../connector/firebaseConnector';
 import { addDoc, collection } from 'firebase/firestore';
+import { createLoanApplication } from '../services/fireStoreService';
 
 
 const validationData = [
@@ -188,9 +189,9 @@ const AcademicInformation = ({ formData, handleInputChange }) => (
                     onChange={handleInputChange}
                     className='w-full px-4 py-3 bg-white/10 border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2'
                     // className={`w-full px-4 py-3 bg-white/10 border rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 ${validationErrors.studentId
-                        // ? 'border-red-500/50 focus:ring-red-500'
-                        // : 'border-white/20 focus:ring-purple-500'
-                        // }`}
+                    // ? 'border-red-500/50 focus:ring-red-500'
+                    // : 'border-white/20 focus:ring-purple-500'
+                    // }`}
                     placeholder="Enter your Matric No (e.g., 25/TXR/0001)"
                 />
                 {/* {validationErrors.studentId && (
@@ -757,7 +758,7 @@ const StudentLoan = () => {
     };
 
     const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value, type, checked, files } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
@@ -775,6 +776,22 @@ const StudentLoan = () => {
         //         validateMatricAndFee();
         //     }, 100);
         // }
+        if (type === 'checkbox') {
+            setFormData(prev => ({
+                ...prev,
+                [name]: checked
+            }));
+        } else if (type === 'file') {
+            setFormData(prev => ({
+                ...prev,
+                [name]: files[0]
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
         const updatedFormData = {
             ...formData,
             [e.target.name]: e.target.value
@@ -913,168 +930,190 @@ const StudentLoan = () => {
 
     }
 
-   
+
 
     const isStepValid = (step) => {
-    const requiredFields = stepValidations[step] || [];
-    const hasRequiredFields = requiredFields.every(field => formData[field]?.toString().trim());
+        const requiredFields = stepValidations[step] || [];
+        const hasRequiredFields = requiredFields.every(field => formData[field]?.toString().trim());
 
-    if (step === 4) { // Changed from 5 to 4 since BankAccount is now step 4
-        return hasRequiredFields && bankConnected;
-    }
+        if (step === 4) { // Changed from 5 to 4 since BankAccount is now step 4
+            return hasRequiredFields && bankConnected;
+        }
 
-    return hasRequiredFields;
-};
-
-const nextStep = () => {
-    if (isStepValid(currentStep)) {
-        setCurrentStep(prev => Math.min(prev + 1, steps.length));
-    } else {
-        alert('Please fill in all required fields before proceeding.');
-    }
-};
-
-const prevStep = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 1));
-};
-
-const handleSuccess = (data) => {
-    console.log('Bank account connected successfully:', data);
-    setBankConnected(true);
-    // setFormData(prev => ({
-    //     ...prev,
-    //     monoAccountId: data.accountId,
-    //     accountNumber: data.accountNumber,
-    //     accountName: data.accountName,
-    //     bankName: data.bankName,
-    //     bankCode: data.bankCode
-    // }));
-};
-
-const handleError = (error) => {
-    console.error('Connection failed:', error);
-};
-
-const handleClose = () => {
-    console.log('User closed the connection modal');
-};
-
-const handleSubmit = async () => {
-    if (!isStepValid(currentStep)) { // Added currentStep parameter
-        alert('Please complete all required information and provide consent for automatic debit.');
-        return;
-    }
-
-    const loanApplication = {
-        ...formData,
-        applicationId: 'LN' + Date.now(),
-        applicationDate: new Date().toISOString(),
-        status: 'pending_review'
+        return hasRequiredFields;
     };
 
-    const added = await addDoc(dbref, {formData})
-    if (added) {
-        alert("added");
+    const nextStep = () => {
+        if (isStepValid(currentStep)) {
+            setCurrentStep(prev => Math.min(prev + 1, steps.length));
+        } else {
+            alert('Please fill in all required fields before proceeding.');
+        }
+    };
+
+    const prevStep = () => {
+        setCurrentStep(prev => Math.max(prev - 1, 1));
+    };
+
+    const handleSuccess = (data) => {
+        console.log('Bank account connected successfully:', data);
+        setBankConnected(true);
+        // setFormData(prev => ({
+        //     ...prev,
+        //     monoAccountId: data.accountId,
+        //     accountNumber: data.accountNumber,
+        //     accountName: data.accountName,
+        //     bankName: data.bankName,
+        //     bankCode: data.bankCode
+        // }));
+    };
+
+    const handleError = (error) => {
+        console.error('Connection failed:', error);
+    };
+
+    const handleClose = () => {
+        console.log('User closed the connection modal');
+    };
+
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        if (!isStepValid(currentStep)) { // Added currentStep parameter
+            alert('Please complete all required information and provide consent for automatic debit.');
+            return;
+        }
+
+        const loanApplication = {
+            ...formData,
+            applicationId: 'LN' + Date.now(),
+            applicationDate: new Date().toISOString(),
+            status: 'pending_review'
+        };
+
+        // const added = await addDoc(dbref, { formData })
+        // if (added) {
+        //     alert("added");
+        // }
+         e.preventDefault();
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const result = await createLoanApplication(formData);
+      
+      if (result.success) {
+        setMessage('Loan application submitted successfully!');
+        // Reset form or redirect user
+        console.log('Application ID:', result.id);
+      } else {
+        setMessage(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      setMessage(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
 
-    console.log('Loan Application Submitted:', loanApplication);
-    alert('Student loan application submitted successfully! You will receive an email confirmation shortly.');
-    
-    setCurrentStep(7);
-};
+        console.log('Loan Application Submitted:', loanApplication);
+        alert('Student loan application submitted successfully! You will receive an email confirmation shortly.');
 
-const renderCurrentStep = () => {
-    console.log('Component:', MonoConnector);
-    console.log('Type of component:', typeof MonoConnector);
-    
-    switch (currentStep) {
-        case 1:
-            return (
-                <PersonalInformation
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                    imagePreview={imagePreview}
-                    handleImageUpload={handleImageUpload}
-                />
-            );
-        case 2:
-            return (
-                <AcademicInformation
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                />
-            );
-        case 3:
-            return (
-                <Fees
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                    calculateMonthlyPayment={calculateMonthlyPayment}
-                />
-            );
-        case 4: // BankAccount step
-            return (
-                <BankAccount
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                    bankConnected={bankConnected}
-                    handleSuccess={handleSuccess}
-                    handleError={handleError}
-                    handleClose={handleClose}
-                />
-            );
-        case 5: // ReviewConsent step (changed from case 6)
-            return (
-                <ReviewConsent
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                />
-            );
-        case 6: // SuccessPage step (changed from case 7)
-            return (
-                <SuccessPage />
-            );
-        default:
-            return (
-                <PersonalInformation
-                    formData={formData}
-                    handleInputChange={handleInputChange}
-                    imagePreview={imagePreview}
-                    handleImageUpload={handleImageUpload}
-                />
-            );
-    }
-};
+        setCurrentStep(7);
+    };
 
-return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-4 rounded-lg">
-        <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8 mt-4">
-                <h1 className="text-4xl font-bold text-white mb-2">Student Registration</h1>
-                <p className="text-purple-200">Complete your profile to get started</p>
-            </div>
+    const renderCurrentStep = () => {
+        console.log('Component:', MonoConnector);
+        console.log('Type of component:', typeof MonoConnector);
 
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 lg:p-8 shadow-2xl border border-white/20">
-                <StepIndicator steps={steps} currentStep={currentStep} />
+        switch (currentStep) {
+            case 1:
+                return (
+                    <PersonalInformation
+                        formData={formData}
+                        handleInputChange={handleInputChange}
+                        imagePreview={imagePreview}
+                        handleImageUpload={handleImageUpload}
+                    />
+                );
+            case 2:
+                return (
+                    <AcademicInformation
+                        formData={formData}
+                        handleInputChange={handleInputChange}
+                    />
+                );
+            case 3:
+                return (
+                    <Fees
+                        formData={formData}
+                        handleInputChange={handleInputChange}
+                        calculateMonthlyPayment={calculateMonthlyPayment}
+                    />
+                );
+            case 4: // BankAccount step
+                return (
+                    <BankAccount
+                        formData={formData}
+                        handleInputChange={handleInputChange}
+                        bankConnected={bankConnected}
+                        handleSuccess={handleSuccess}
+                        handleError={handleError}
+                        handleClose={handleClose}
+                    />
+                );
+            case 5: // ReviewConsent step (changed from case 6)
+                return (
+                    <ReviewConsent
+                        formData={formData}
+                        handleInputChange={handleInputChange}
+                    />
+                );
+            case 6: // SuccessPage step (changed from case 7)
+                return (
+                    <SuccessPage />
+                );
+            default:
+                return (
+                    <PersonalInformation
+                        formData={formData}
+                        handleInputChange={handleInputChange}
+                        imagePreview={imagePreview}
+                        handleImageUpload={handleImageUpload}
+                    />
+                );
+        }
+    };
 
-                <div className="min-h-[500px]">
-                    {renderCurrentStep()}
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 p-4 rounded-lg">
+            <div className="max-w-4xl mx-auto">
+                <div className="text-center mb-8 mt-4">
+                    <h1 className="text-4xl font-bold text-white mb-2">Student Registration</h1>
+                    <p className="text-purple-200">Complete your profile to get started</p>
                 </div>
 
-                {/* Show navigation buttons for all steps except the final success page */}
-                {currentStep < 6 && ( // Changed from steps.length to 6 to exclude success page
-                    <NavigationButtons
-                        currentStep={currentStep}
-                        totalSteps={steps.length}
-                        onPrevious={prevStep}
-                        onNext={nextStep}
-                        onSubmit={handleSubmit}
-                        isStepValid={isStepValid(currentStep)}
-                    />
-                )}
+                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 lg:p-8 shadow-2xl border border-white/20">
+                    <StepIndicator steps={steps} currentStep={currentStep} />
+
+                    <div className="min-h-[500px]">
+                        {renderCurrentStep()}
+                    </div>
+
+                    {/* Show navigation buttons for all steps except the final success page */}
+                    {currentStep < 6 && ( // Changed from steps.length to 6 to exclude success page
+                        <NavigationButtons
+                            currentStep={currentStep}
+                            totalSteps={steps.length}
+                            onPrevious={prevStep}
+                            onNext={nextStep}
+                            onSubmit={handleSubmit}
+                            isStepValid={isStepValid(currentStep)}
+                        />
+                    )}
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
 }
 export default StudentLoan;
