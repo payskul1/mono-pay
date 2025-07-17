@@ -1,4 +1,3 @@
-// services/fireStoreService.js
 import { 
   collection, 
   addDoc, 
