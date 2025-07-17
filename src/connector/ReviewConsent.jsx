@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Shield, AlertCircle } from 'lucide-react';
+import { createLoanApplication } from '../services/fireStoreService';
 
 // --- API Service Logic (Mirroring Python functions) ---
 // This section handles all communication with the Mono API.
@@ -16,6 +17,7 @@ const monoApiService = {
    * @param {object} customerDetails - Contains firstName, lastName, email, bvn, etc.
    * @returns {Promise<string>} The customer ID.
    */
+
   async createOrGetCustomer(customerDetails) {
     const payload = {
       firstName: customerDetails.firstName,
@@ -94,6 +96,13 @@ const ReviewConsent = ({ formData, onSubmit }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
   const [consentChecked, setConsentChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [applicationId, setApplicationId] = useState('');
+
+      const dbref = collection(db, "loanApplications");
+  
+
 
   const handleCheckboxChange = (e) => {
     setConsentChecked(e.target.checked);
@@ -163,6 +172,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       if (mandateData?.mono_url) {
         console.log('SUCCESS! Redirecting to Mono for authorization:', mandateData.mono_url);
         window.open(mandateData.mono_url, 'mono-auth', 'width=500,height=700,scrollbars=yes,resizable=yes');
+        handleSubmit();
         if (onSubmit) onSubmit({ ...formData, mandateId: mandateData.mandate_id, customerId });
       } else {
         throw new Error('Mandate setup succeeded, but no authorization URL was returned.');
@@ -175,6 +185,43 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       setIsProcessing(false);
     }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+
+    setLoading(true);
+    setMessage('');
+
+    try {
+      console.log('Submitting form data:', formData);
+
+      const result = await createLoanApplication(formData);
+
+
+      if (result.success) {
+        setMessage('Loan application submitted successfully!');
+        setApplicationId(result.applicationId);
+        // setSubmissionSuccess(true);
+        console.log("Firestore Document written with ID: ", result.id);
+
+        // Move to success page
+        // setCurrentStep(6);
+
+        console.log('Application ID:', result.applicationId);
+        console.log('Document ID:', result.id);
+      } else {
+        setMessage(`Error: ${result.error}`);
+        setError(result.error);
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setMessage(`Error: ${error.message}`);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div className="space-y-6">
