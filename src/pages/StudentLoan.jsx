@@ -4,7 +4,7 @@ import MonoConnector from '../connector/MonoConnector';
 import ReviewConsent from '../connector/ReviewConsent';
 import { db } from '../connector/firebaseConnector';
 import { addDoc, collection } from 'firebase/firestore';
-import { createLoanApplication, validateStudentData } from '../services/fireStoreService';
+import { createLoanApplication, finalizeApplication, getApplicationData, saveApplicationData, validateStudentData } from '../services/fireStoreService';
 
 
 const validationData = [
@@ -487,6 +487,7 @@ const Financial = ({ formData, handleInputChange }) => (
 const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess, handleError, handleClose }) => {
     // const pubKey = "test_pk_vulwcz9yw9kqdtvua5q4";
     const pubKey = "live_pk_g8pqod3pkbkwds5mmi2i";
+    
     // const pubKey = "test_pk_ohr9l7gksqibkvlavjyn"
     const customerName = formData.firstName + formData.lastName;
     const customerEmail = formData.email;
@@ -747,6 +748,8 @@ const StudentLoan = () => {
     const [message, setMessage] = useState('');
     const [applicationId, setApplicationId] = useState('');
     const [submissionSuccess, setSubmissionSuccess] = useState(false);
+    
+
 
     // Reference to Firestore collection
     const dbref = collection(db, "loanApplications");
@@ -907,10 +910,89 @@ const StudentLoan = () => {
             });
     }, []);
 
+     useEffect(() => {
+        const generateApplicationId = () => {
+            return 'app_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        };
+        
+        setApplicationId(generateApplicationId());
+    }, []);
+
+    // Load existing application data if resuming
+    useEffect(() => {
+        const loadApplicationData = async () => {
+            if (applicationId) {
+                const result = await getApplicationData(applicationId);
+                if (result.success && result.data) {
+                    // Reconstruct formData from saved steps
+                    const savedData = result.data;
+                    const reconstructedData = {};
+                    
+                    // Merge data from all saved steps
+                    Object.keys(savedData).forEach(key => {
+                        if (key.startsWith('step') && savedData[key]) {
+                            Object.assign(reconstructedData, savedData[key]);
+                        }
+                    });
+                    
+                    setFormData(reconstructedData);
+                    setCurrentStep(savedData.currentStep || 1);
+                }
+            }
+        };
+        
+        loadApplicationData();
+    }, [applicationId]);
     // Calculate monthly payment
     useEffect(() => {
         calculateMonthlyPayment();
     }, [formData.loanAmount, formData.repaymentTerm]);
+
+    // Function to get current step data
+    const getCurrentStepData = (step) => {
+        switch (step) {
+            case 1:
+                return {
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    dateOfBirth: formData.dateOfBirth,
+                    address: formData.address,
+                    profileImage: formData.profileImage
+                };
+            case 2:
+                return {
+                    institution: formData.institution,
+                    program: formData.program,
+                    yearOfStudy: formData.yearOfStudy,
+                    gpa: formData.gpa,
+                    studentId: formData.studentId
+                };
+            case 3:
+                return {
+                    loanAmount: formData.loanAmount,
+                    loanTerm: formData.loanTerm,
+                    monthlyPayment: formData.monthlyPayment,
+                    interestRate: formData.interestRate
+                };
+            case 4:
+                return {
+                    bankName: formData.bankName,
+                    accountNumber: formData.accountNumber,
+                    routingNumber: formData.routingNumber,
+                    accountType: formData.accountType
+                };
+            case 5:
+                return {
+                    agreedToTerms: formData.agreedToTerms,
+                    consentToCredit: formData.consentToCredit,
+                    marketingConsent: formData.marketingConsent
+                };
+            default:
+                return {};
+        }
+    };
 
     // const calculateMonthlyPayment = () => {
     //     const loanAmount = parseFloat(formData.loanAmount) || 0;
@@ -958,17 +1040,55 @@ const StudentLoan = () => {
         return hasRequiredFields && !hasValidationErrors;
     };
 
-    const nextStep = () => {
-        if (isStepValid(currentStep)) {
-            setCurrentStep(prev => Math.min(prev + 1, steps.length));
-        } else {
-            alert('Please fill in all required fields correctly before proceeding.');
+    // const nextStep = () => {
+    //     if (isStepValid(currentStep)) {
+    //         setCurrentStep(prev => Math.min(prev + 1, steps.length));
+    //     } else {
+    //         alert('Please fill in all required fields correctly before proceeding.');
+    //     }
+    // };
+
+     const nextStep = async () => {
+        if (!isStepValid(currentStep)) {
+            setError('Please complete all required fields before proceeding.');
+            return;
+        }
+
+        setLoading(true);
+        setError('');
+        setMessage('');
+
+        try {
+            // Get current step data
+            const stepData = getCurrentStepData(currentStep);
+            
+            // Save to Firestore
+            const result = await saveApplicationData(applicationId, stepData, currentStep);
+            
+            if (result.success) {
+                setCurrentStep(prev => prev + 1);
+                setMessage('Progress saved successfully!');
+                
+                // Clear message after 3 seconds
+                setTimeout(() => setMessage(''), 3000);
+            } else {
+                setError('Failed to save progress. Please try again.');
+            }
+        } catch (err) {
+            setError('An error occurred while saving. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+       const prevStep = () => {
+        if (currentStep > 1) {
+            setCurrentStep(prev => prev - 1);
         }
     };
 
-    const prevStep = () => {
-        setCurrentStep(prev => Math.max(prev - 1, 1));
-    };
+    // const prevStep = () => {
+    //     setCurrentStep(prev => Math.max(prev - 1, 1));
+    // };
 
     const handleSuccess = (data) => {
         console.log('Bank account connected successfully:', data);
@@ -993,46 +1113,91 @@ const StudentLoan = () => {
         console.log('User closed the connection modal');
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
         
+    //     if (!isStepValid(currentStep)) {
+    //         alert('Please complete all required information and provide consent for automatic debit.');
+    //         return;
+    //     }
+
+    //     setLoading(true);
+    //     setMessage('');
+
+    //     try {
+    //         console.log('Submitting form data:', formData);
+            
+    //         const result = await createLoanApplication(formData);
+            
+            
+    //         if (result.success) {
+    //             setMessage('Loan application submitted successfully!');
+    //             setApplicationId(result.applicationId);
+    //             setSubmissionSuccess(true);
+    //             console.log("Firestore Document written with ID: ", result.id);
+                
+    //             // Move to success page
+    //             setCurrentStep(6);
+                
+    //             console.log('Application ID:', result.applicationId);
+    //             console.log('Document ID:', result.id);
+    //         } else {
+    //             setMessage(`Error: ${result.error}`);
+    //             setError(result.error);
+    //         }
+    //     } catch (error) {
+    //         console.error('Submission error:', error);
+    //         setMessage(`Error: ${error.message}`);
+    //         setError(error.message);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+    const handleSubmit = async () => {
         if (!isStepValid(currentStep)) {
-            alert('Please complete all required information and provide consent for automatic debit.');
+            setError('Please complete all required fields before submitting.');
             return;
         }
 
         setLoading(true);
+        setError('');
         setMessage('');
 
         try {
-            console.log('Submitting form data:', formData);
+            // Save final step data
+            const finalStepData = getCurrentStepData(currentStep);
+            await saveApplicationData(applicationId, finalStepData, currentStep);
             
-            const result = await createLoanApplication(formData);
-            
+            // Finalize the application
+            const result = await finalizeApplication(applicationId, formData);
             
             if (result.success) {
-                setMessage('Loan application submitted successfully!');
-                setApplicationId(result.applicationId);
+                setCurrentStep(6); // Move to success page
+                setMessage('Application submitted successfully!');
                 setSubmissionSuccess(true);
-                console.log("Firestore Document written with ID: ", result.id);
-                
-                // Move to success page
-                setCurrentStep(6);
-                
-                console.log('Application ID:', result.applicationId);
-                console.log('Document ID:', result.id);
             } else {
-                setMessage(`Error: ${result.error}`);
-                setError(result.error);
+                setError('Failed to submit application. Please try again.');
             }
-        } catch (error) {
-            console.error('Submission error:', error);
-            setMessage(`Error: ${error.message}`);
-            setError(error.message);
+        } catch (err) {
+            setError('An error occurred during submission. Please try again.');
         } finally {
             setLoading(false);
         }
     };
+
+    // Auto-save functionality (optional)
+    useEffect(() => {
+        const autoSave = async () => {
+            if (applicationId && currentStep > 0 && currentStep < 6) {
+                const stepData = getCurrentStepData(currentStep);
+                await saveApplicationData(applicationId, stepData, currentStep);
+            }
+        };
+
+        // Auto-save every 30 seconds
+        const interval = setInterval(autoSave, 30000);
+        return () => clearInterval(interval);
+    }, [formData, currentStep, applicationId]);
 
     const renderCurrentStep = () => {
         switch (currentStep) {
@@ -1103,6 +1268,7 @@ const StudentLoan = () => {
         }
     };
 
+    // Your existing loading and return JSX remains the same...
     if (isLoading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center">
@@ -1159,4 +1325,5 @@ const StudentLoan = () => {
     );
 };
 
+   
 export default StudentLoan;

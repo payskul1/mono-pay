@@ -21,6 +21,123 @@ import { db, storage } from '../connector/firebaseConnector';
 // Collection name for loan applications
 const COLLECTION_NAME = 'loanApplications';
 
+const cleanData = (data) => {
+    const cleaned = {};
+    Object.keys(data).forEach(key => {
+        if (data[key] !== undefined && data[key] !== null && data[key] !== '') {
+            cleaned[key] = data[key];
+        }
+    });
+    return cleaned;
+};
+
+// export const saveApplicationData = async (applicationId, stepData, stepNumber) => {
+//     try {
+//         const applicationRef = doc(db, 'applications', applicationId);
+        
+//         // Check if document exists
+//         const docSnap = await getDoc(applicationRef);
+        
+//         if (docSnap.exists()) {
+//             // Update existing document
+//             await updateDoc(applicationRef, {
+//                 [`step${stepNumber}`]: stepData,
+//                 lastUpdated: serverTimestamp(),
+//                 currentStep: stepNumber
+//             });
+//         } else {
+//             // Create new document
+//             await setDoc(applicationRef, {
+//                 [`step${stepNumber}`]: stepData,
+//                 createdAt: serverTimestamp(),
+//                 lastUpdated: serverTimestamp(),
+//                 currentStep: stepNumber,
+//                 status: 'in_progress'
+//             });
+//         }
+        
+//         return { success: true };
+//     } catch (error) {
+//         console.error('Error saving application data:', error);
+//         return { success: false, error: error.message };
+//     }
+// };
+
+export const saveApplicationData = async (applicationId, stepData, stepNumber) => {
+    try {
+        const applicationRef = doc(db, 'applications', applicationId);
+        
+        // Clean the step data to remove undefined values
+        const cleanedStepData = cleanData(stepData);
+        
+        // Only proceed if there's actual data to save
+        if (Object.keys(cleanedStepData).length === 0) {
+            console.log('No valid data to save for step', stepNumber);
+            return { success: true };
+        }
+        
+        // Check if document exists
+        const docSnap = await getDoc(applicationRef);
+        
+        if (docSnap.exists()) {
+            // Update existing document
+            await updateDoc(applicationRef, {
+                [`step${stepNumber}`]: cleanedStepData,
+                lastUpdated: serverTimestamp(),
+                currentStep: stepNumber
+            });
+        } else {
+            // Create new document
+            await setDoc(applicationRef, {
+                [`step${stepNumber}`]: cleanedStepData,
+                createdAt: serverTimestamp(),
+                lastUpdated: serverTimestamp(),
+                currentStep: stepNumber,
+                status: 'in_progress'
+            });
+        }
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Error saving application data:', error);
+        return { success: false, error: error.message };
+    }
+};
+
+export const getApplicationData = async (applicationId) => {
+    try {
+        const applicationRef = doc(db, 'applications', applicationId);
+        const docSnap = await getDoc(applicationRef);
+        
+        if (docSnap.exists()) {
+            return { success: true, data: docSnap.data() };
+        } else {
+            return { success: false, error: 'Application not found' };
+        }
+    } catch (error) {
+        console.error('Error fetching application data:', error);
+        return { success: false, error: error.message };
+    }
+};
+
+export const finalizeApplication = async (applicationId, finalData) => {
+    try {
+        const applicationRef = doc(db, 'applications', applicationId);
+        
+        await updateDoc(applicationRef, {
+            ...finalData,
+            status: 'submitted',
+            submittedAt: serverTimestamp(),
+            lastUpdated: serverTimestamp()
+        });
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Error finalizing application:', error);
+        return { success: false, error: error.message };
+    }
+};
+
 // Create a new loan application
 export const createLoanApplication = async (formData) => {
   try {

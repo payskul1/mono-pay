@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Shield, AlertCircle } from 'lucide-react';
 import { createLoanApplication } from '../services/fireStoreService';
+import { collection } from 'firebase/firestore';
+import { db } from './firebaseConnector';
 
 // --- API Service Logic (Mirroring Python functions) ---
 // This section handles all communication with the Mono API.
 
 const API_BASE_URL = 'https://api.withmono.com';
 // IMPORTANT: For production, this key must be kept on a backend server.
-const SECRET_KEY = 'live_sk_f6cgvt4md9o6e2h0x2ho';
-// const SECRET_KEY = '';
+// const SECRET_KEY = 'live_sk_f6cgvt4md9o6e2h0x2ho';
+  // const SECRET_KEY = 'test_sk_rslkrmp9f62zvu6waj1c';
+  const SECRET_KEY = 'live_sk_aowc558p7xm9my7bf4oi';
 
 const monoApiService = {
   /**
@@ -20,11 +23,16 @@ const monoApiService = {
 
   async createOrGetCustomer(customerDetails) {
     const payload = {
-      firstName: customerDetails.firstName,
-      lastName: customerDetails.lastName,
-      email: customerDetails.email,
-      address: customerDetails.address || "N/A",
-      phone: customerDetails.phone,
+      // firstName: customerDetails.firstName,
+      // lastName: customerDetails.lastName,
+      // email: customerDetails.email,
+      // address: customerDetails.address || "N/A",
+      // phone: customerDetails.phone,
+      email: "samuelolamide@gmail.com",
+  firstName: "Samuel",
+  lastName: "Olamide",
+  address: "Agungi, Lagos",
+  phone: "08012345678",
       identity: {
         type: "bvn",
         number: customerDetails.bvn,
@@ -76,6 +84,7 @@ const monoApiService = {
         'mono-sec-key': SECRET_KEY,
       },
       body: JSON.stringify(mandatePayload),
+      
     });
 
     const result = await response.json();
@@ -100,7 +109,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
   const [message, setMessage] = useState('');
   const [applicationId, setApplicationId] = useState('');
 
-      const dbref = collection(db, "loanApplications");
+  const dbref = collection(db, "loanApplications");
   
 
 
