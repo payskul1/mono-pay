@@ -29,8 +29,8 @@ const WaitlistForm = () => {
     currentProvider: '',
     
     // Budget Information
-    budgetRange: '',
-    paymentFrequency: '',
+    // budgetRange: '',
+    // paymentFrequency: '',
     
     // Additional Information
     specificNeeds: '',
@@ -411,7 +411,7 @@ const WaitlistForm = () => {
             </div>
 
             {/* Budget Information */}
-            <div className="border-b border-gray-200 pb-6">
+            {/* <div className="border-b border-gray-200 pb-6">
               <div className="flex items-center mb-4">
                 <DollarSign className="text-blue-600 mr-2" size={24} />
                 <h2 className="text-2xl font-semibold text-gray-800">Budget Information</h2>
@@ -453,7 +453,7 @@ const WaitlistForm = () => {
                   </select>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Additional Information */}
             <div>
@@ -512,7 +512,7 @@ const WaitlistForm = () => {
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
+                className="bg-purple-800 hover:bg-purple-900 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-colors duration-200 shadow-lg hover:shadow-xl"
               >
                 Join Waitlist
               </button>

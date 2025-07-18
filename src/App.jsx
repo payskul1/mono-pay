@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RootLayout from './pages/layout';
 import StudentLoan from './pages/StudentLoan';
 import SuccessPage from './pages/SuccessPage';
+import WaitlistForm from './pages/WaitListForm';
+import WaitList from './pages/WaitList';
 
 function App() {
    useEffect(() => {
@@ -26,6 +28,8 @@ function App() {
       children: [
         { path: "/school", element: <StudentLoan /> },
         { path: '/payment-success', element: <SuccessPage />},
+        { path: '/wait-list', element: <WaitList />},
+
 
 
         { index: true, element: <PayskulStudentLanding /> },
