@@ -6,7 +6,7 @@ const AdditionalInformation = ({ formData, handleInputChange }) => {
     <div>
       <div className="flex items-center mb-4">
         <Mail className="text-blue-600 mr-2" size={24} />
-        <h2 className="text-2xl font-semibold text-gray-800">Additional Information</h2>
+        <h2 className="text-lg lg:text-2xl  font-semibold text-gray-800">Additional Information</h2>
       </div>
       
       <div className="space-y-6">

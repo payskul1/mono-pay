@@ -15,7 +15,7 @@ const StudentInformation = ({ formData, handleInputChange, handleCheckboxChange 
     <div className="border-b border-gray-200 pb-6">
       <div className="flex items-center mb-4">
         <Users className="text-blue-600 mr-2" size={24} />
-        <h2 className="text-2xl font-semibold text-gray-800">Student Information</h2>
+        <h2 className=" text-lg lg:text-2xl font-semibold text-gray-800">Student Information</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -46,7 +46,7 @@ const StudentInformation = ({ formData, handleInputChange, handleCheckboxChange 
         
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-3">Age Groups (Select all that apply)</label>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {ageGroups.map((age) => (
               <label key={age} className="flex items-center space-x-2 cursor-pointer">
                 <input

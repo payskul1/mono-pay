@@ -6,7 +6,7 @@ const ProgramDetails = ({ formData, handleInputChange }) => {
     <div className="border-b border-gray-200 pb-6">
       <div className="flex items-center mb-4">
         <GraduationCap className="text-blue-600 mr-2" size={24} />
-        <h2 className="text-2xl font-semibold text-gray-800">Program Details</h2>
+        <h2 className="text-lg lg:text-2xl  font-semibold text-gray-800">Program Details</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
