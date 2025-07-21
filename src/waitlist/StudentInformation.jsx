@@ -3,12 +3,14 @@ import { Users } from 'lucide-react';
 
 const StudentInformation = ({ formData, handleInputChange, handleCheckboxChange }) => {
   const ageGroups = [
-    'Pre-K (3-4)', 
-    'Kindergarten (5)', 
+    'Pre-K & Kindergarten (3-5)', 
+    // 'Kindergarten (5)', 
     'Elementary (6-10)', 
     'Middle School (11-13)', 
     'High School (14-18)', 
-    'Adult Education'
+    'College (+16)', 
+
+    'Adult Education/ Professional',
   ];
 
   return (

@@ -10,7 +10,10 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="md:col-span-2">
+        {/* <div className="md:col-span-2"> */}
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
+        <div>
+
           <label className="block text-sm font-medium text-gray-700 mb-2">School/Organization Name *</label>
           <input
             type="text"
@@ -33,6 +36,7 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Select school type</option>
+            <option value="tertiary">Tertiary Institution</option>
             <option value="public">Public School</option>
             <option value="private">Private School</option>
             <option value="charter">Charter School</option>
@@ -42,7 +46,7 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
           </select>
         </div>
         
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">School Website</label>
           <input
             type="url"
@@ -52,9 +56,10 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="https://schoolwebsite.com"
           />
-        </div>
+        </div> */}
         
-        <div className="md:col-span-2">
+        {/* <div className="md:col-span-2"> */}
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
           <input
             type="text"
@@ -80,7 +85,7 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
           />
         </div>
         
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">State *</label>
           <input
             type="text"
@@ -91,9 +96,9 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Enter state"
           />
-        </div>
+        </div> */}
         
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">ZIP Code *</label>
           <input
             type="text"
@@ -104,7 +109,7 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Enter ZIP code"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -107,8 +107,8 @@ class DatabaseService {
           address: {
             street: formData.schoolAddress || '',
             city: formData.schoolCity || '',
-            state: formData.schoolState || '',
-            zip: formData.schoolZip || ''
+            // state: formData.schoolState || '',
+            // zip: formData.schoolZip || ''
           },
           website: formData.schoolWebsite || ''
         },
@@ -121,15 +121,15 @@ class DatabaseService {
         },
         
         // Program Details
-        program: {
-          interest: formData.programInterest || '',
-          startDate: formData.startDate || '',
-          currentProvider: formData.currentProvider || ''
-        },
+        // program: {
+        //   interest: formData.programInterest || '',
+        //   startDate: formData.startDate || '',
+        //   currentProvider: formData.currentProvider || ''
+        // },
         
         // Additional Information
         additional: {
-          specificNeeds: formData.specificNeeds || '',
+          additionalInfo: formData.specificNeeds || '',
           marketingSource: formData.marketingSource || '',
           comments: formData.additionalComments || ''
         },
@@ -138,7 +138,7 @@ class DatabaseService {
         status: 'new',
         priority: this.calculatePriority(formData),
         submissionId: `WL_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        ipAddress: null, // You can add IP tracking if needed
+        ipAddress: null, 
         userAgent: navigator.userAgent
       };
 

@@ -61,10 +61,10 @@ const ContactInformation = ({ formData, handleInputChange }) => {
             <option value="">Select your role</option>
             <option value="principal">Principal</option>
             <option value="administrator">Administrator</option>
-            <option value="teacher">Teacher</option>
-            <option value="parent">Parent</option>
+            {/* <option value="teacher">Teacher</option> */}
+            {/* <option value="parent">Parent</option> */}
             <option value="board_member">Board Member</option>
-            <option value="other">Other</option>
+            {/* <option value="other">Other</option> */}
           </select>
         </div>
       </div>

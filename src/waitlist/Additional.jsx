@@ -11,7 +11,9 @@ const AdditionalInformation = ({ formData, handleInputChange }) => {
       
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Specific Needs or Requirements</label>
+          {/* <label className="block text-sm font-medium text-gray-700 mb-2">Specific Needs or Requirements</label> */}
+          <label className="block text-sm font-medium text-gray-700 mb-2">Additional Information</label>
+
           <textarea
             name="specificNeeds"
             value={formData.specificNeeds}
@@ -40,7 +42,7 @@ const AdditionalInformation = ({ formData, handleInputChange }) => {
           </select>
         </div>
         
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Additional Comments</label>
           <textarea
             name="additionalComments"
@@ -50,7 +52,7 @@ const AdditionalInformation = ({ formData, handleInputChange }) => {
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Any additional information you'd like to share..."
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

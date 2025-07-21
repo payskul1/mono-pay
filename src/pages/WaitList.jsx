@@ -27,7 +27,7 @@ const WaitList = () => {
     schoolCity: '',
     schoolState: '',
     schoolZip: '',
-    schoolWebsite: '',
+    // schoolWebsite: '',
     
     // Student Information
     totalStudents: '',
@@ -139,11 +139,11 @@ const WaitList = () => {
         setSubmitted(true);
         
         // Reset form after 4 seconds
-        setTimeout(() => {
-          setSubmitted(false);
-          setSubmissionId('');
-          resetForm();
-        }, 4000);
+        // setTimeout(() => {
+        //   setSubmitted(false);
+        //   setSubmissionId('');
+        //   resetForm();
+        // }, 4000);
         
       } else {
         console.error('Form submission failed:', result);
@@ -195,7 +195,7 @@ const WaitList = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">Join Our Waitlist</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto">
             Get early access to our educational programs. Help us understand your needs and we'll tailor our services to your school.
           </p>
         </div>
@@ -232,10 +232,10 @@ const WaitList = () => {
               handleCheckboxChange={handleCheckboxChange}
             />
             
-            <ProgramDetails 
+            {/* <ProgramDetails 
               formData={formData} 
               handleInputChange={handleInputChange} 
-            />
+            /> */}
             
             <AdditionalInformation 
               formData={formData} 

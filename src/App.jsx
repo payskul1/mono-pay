@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 
+// import { CardSim } from "lucide-react";
+
 import './App.css'
 import PayskulStudentLanding from './pages/forStudent'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -8,16 +10,19 @@ import StudentLoan from './pages/StudentLoan';
 import SuccessPage from './pages/SuccessPage';
 import WaitlistForm from './pages/WaitListForm';
 import WaitList from './pages/WaitList';
+import WaitlistPage from './pages/waitListPage';
+import ForIndividuals from './pages/ForIndividuals';
+import StudentRegistrationForm from './pages/studentReg';
 
 function App() {
    useEffect(() => {
-    // Get the visit count from localStorage
+//     // Get the visit count from localStorage
     const visitCount = localStorage.getItem("visitCount");
 
-    // Convert to number and increment
+//     // Convert to number and increment
     const newCount = visitCount ? parseInt(visitCount, 10) + 1 : 1;
 
-    // Update localStorage
+//     // Update localStorage
     localStorage.setItem("visitCount", newCount);
   }, []);
 
@@ -28,7 +33,11 @@ function App() {
       children: [
         { path: "/school", element: <StudentLoan /> },
         { path: '/payment-success', element: <SuccessPage />},
-        { path: '/wait-list', element: <WaitList />},
+        { path: '/wait-list', element: <WaitlistPage />},
+        { path: '/wait-list/forschools', element: <WaitList />},
+        { path: '/wait-list/individual', element: <StudentRegistrationForm />},
+
+
 
 
 
