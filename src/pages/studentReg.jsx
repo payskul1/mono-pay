@@ -139,7 +139,6 @@ export default function StudentRegistrationForm() {
             console.log('Submitting form data:', formData);
             
             // Save to database using the database service
-            // const result = await databaseService.saveWaitlistData(formData);
             const result = await databaseService.submitWaitlistForm(formData);
             
             if (result.success) {
@@ -190,13 +189,14 @@ export default function StudentRegistrationForm() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+        // bg-gradient-to-br from-blue-300 via-indigo-300 to-purple-300
+        <div className="min-h-screen bg-white  py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                     {/* Header */}
                     <div className="px-6 py-8 sm:px-8">
                         <h1 className="text-3xl font-bold text-purple-800 text-center">
-                            Join the WaitList
+                            Pre-Enrollment Form
                         </h1>
                         <p className="mt-2 text-black text-center">
                             Please fill out all required information below

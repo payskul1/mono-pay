@@ -37,11 +37,7 @@ export default function PayskulStudentLanding() {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-indigo-900 to-purple-900 text-white overflow-hidden">
-      {/* Animated Background */}
-     
-
-      {/* Hero Section */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-indigo-900 to-purple-900 text-white overflow-hidden">     
       <section className="relative pt-24 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
@@ -76,77 +72,10 @@ export default function PayskulStudentLanding() {
               </button>
             </div>
 
-            {/* Quick Stats */}
-            {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              <div>
-                <div className="text-3xl font-bold text-blue-400">50,000+</div>
-                <div className="text-gray-400">Students Helped</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-purple-400">₦2.5B+</div>
-                <div className="text-gray-400">Fees Paid</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-indigo-400">200+</div>
-                <div className="text-gray-400">Partner Schools</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-cyan-400">24hrs</div>
-                <div className="text-gray-400">Average Approval</div>
-              </div>
-            </div> */}
           </div>
         </div>
 
-        {/* Floating Cards */}
-        {/* <div className="absolute top-1/2 left-8 transform -translate-y-1/2 hidden xl:block">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 animate-float">
-            <Book className="w-8 h-8 text-blue-400 mb-2" />
-            <div className="text-sm">Focus on Studies</div>
-          </div>
-        </div>
-        
-        <div className="absolute top-1/3 right-8 transform -translate-y-1/2 hidden xl:block">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 animate-float animation-delay-1000">
-            <CreditCard className="w-8 h-8 text-purple-400 mb-2" />
-            <div className="text-sm">Easy Payments</div>
-          </div>
-        </div> */}
       </section>
-
-      {/* How It Works */}
-      {/* <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              How It Works
-            </h2>
-            <p className="text-xl text-gray-400">
-              Getting started is simple and takes less than 10 minutes
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {steps.map((item, index) => (
-              <div key={index} className="relative">
-                <div className="bg-gradient-to-br from-blue-900/50 to-purple-900/50 rounded-2xl p-8 border border-blue-500/20 hover:border-blue-500/40 transition-all text-center">
-                  <div className="text-6xl font-bold text-blue-400/30 mb-4">{item.step}</div>
-                  <div className="text-blue-400 mb-4 flex justify-center">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-2xl font-semibold mb-4">{item.title}</h3>
-                  <p className="text-gray-400">{item.description}</p>
-                </div>
-                {index < 2 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                    <ArrowRight className="w-8 h-8 text-blue-400" />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* Benefits Section */}
       <section id="benefits" className="py-2 px-4 sm:px-6 lg:px-8 relative">

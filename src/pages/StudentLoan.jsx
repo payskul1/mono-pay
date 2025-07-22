@@ -677,21 +677,6 @@ const NavigationButtons = ({ currentStep, totalSteps, onPrevious, onNext, onSubm
     </div>
 );
 
-
-// import { 
-//     createLoanApplication, 
-//     validateStudentData,
-//     updateLoanApplication 
-// } from '../services/fireStoreService';
-// import { 
-//     User, 
-//     GraduationCap, 
-//     DollarSign, 
-//     CreditCard, 
-//     CheckCircle, 
-//     UserCheck 
-// } from 'lucide-react';
-
 const StudentLoan = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [validationErrors, setValidationErrors] = useState({});

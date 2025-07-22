@@ -17,8 +17,6 @@ export default function RootLayout() {
         {/* CHILDREN- DIFFERENT PAGES */}
         <Outlet />
       </main>
-      {/* <Footer /> */}
-
     </section>
   );
 }

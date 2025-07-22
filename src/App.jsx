@@ -34,13 +34,8 @@ function App() {
         { path: "/school", element: <StudentLoan /> },
         { path: '/payment-success', element: <SuccessPage />},
         { path: '/wait-list', element: <WaitlistPage />},
-        { path: '/wait-list/forschools', element: <WaitList />},
+        { path: '/wait-list/for-schools', element: <WaitList />},
         { path: '/wait-list/individual', element: <StudentRegistrationForm />},
-
-
-
-
-
         { index: true, element: <PayskulStudentLanding /> },
         { path: "*", element: <h1>404</h1>}
       ],
