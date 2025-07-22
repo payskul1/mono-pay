@@ -299,8 +299,8 @@ export default function StudentRegistrationForm() {
                                 </h2>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
+                            <div className="grid grid-cols-3 gap-6">
+                                {/* <div>
                                     <label htmlFor="studentCriteria" className="block text-sm font-medium text-gray-700 mb-2">
                                         Student Criteria *
                                     </label>
@@ -320,9 +320,9 @@ export default function StudentRegistrationForm() {
                                         <option value="vocational-training">Vocational Training</option>
                                         <option value="other">Other</option>
                                     </select>
-                                </div>
+                                </div> */}
 
-                                <div>
+                                <div className='grid-col-1'>
                                     <label htmlFor="numberOfStudents" className="block text-sm font-medium text-gray-700 mb-2">
                                         Number of Students *
                                     </label>
@@ -338,9 +338,8 @@ export default function StudentRegistrationForm() {
                                         placeholder="Enter number of students"
                                     />
                                 </div>
-                            </div>
 
-                            <div>
+                            <div className='col-span-2'>
                                 <label className="block text-sm font-medium text-gray-700 mb-3">
                                     Student Age Groups * (Select all that apply)
                                 </label>
@@ -359,6 +358,8 @@ export default function StudentRegistrationForm() {
                                     ))}
                                 </div>
                             </div>
+                            </div>
+
                         </div>
 
                         {/* School Information Section */}
