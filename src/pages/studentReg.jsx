@@ -299,7 +299,7 @@ export default function StudentRegistrationForm() {
                                 </h2>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-6">
+                            <div className="grid grid-col-1 md:grid-cols-3 gap-6">
                                 {/* <div>
                                     <label htmlFor="studentCriteria" className="block text-sm font-medium text-gray-700 mb-2">
                                         Student Criteria *
@@ -322,7 +322,7 @@ export default function StudentRegistrationForm() {
                                     </select>
                                 </div> */}
 
-                                <div className='grid-col-1'>
+                                <div className='col-span-1'>
                                     <label htmlFor="numberOfStudents" className="block text-sm font-medium text-gray-700 mb-2">
                                         Number of Students *
                                     </label>
