@@ -30,7 +30,7 @@ const Header = () => {
                         <div className="flex items-center">
                             {/* <GraduationCap className="w-8 h-8 text-blue-400 mr-2" /> */}
                             <Link to='https://www.payskul.com/'>
-                                <img src='icon.png' className='w-10 h-10' />
+                                <img src='/images/icon.png' className='w-10 h-10' />
                             </Link>
                             <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                                 Payskul
