@@ -214,7 +214,7 @@ export default function StudentRegistrationForm() {
                         {/* Personal Details Section */}
                         <div className="space-y-6">
                             <div className="border-b border-gray-200 pb-4">
-                                <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+                                <h2 className="text-xl font-semibold text-black flex items-center">
                                     <span className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium mr-3">1</span>
                                     Personal Details
                                 </h2>
@@ -222,7 +222,7 @@ export default function StudentRegistrationForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="name" className="block text-sm font-medium text-black mb-2">
                                         Full Name *
                                     </label>
                                     <input
@@ -238,7 +238,7 @@ export default function StudentRegistrationForm() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="email" className="block text-sm font-medium text-black mb-2">
                                         Email Address *
                                     </label>
                                     <input
@@ -254,7 +254,7 @@ export default function StudentRegistrationForm() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="phoneNo" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="phoneNo" className="block text-sm font-medium text-black mb-2">
                                         Phone Number *
                                     </label>
                                     <input
@@ -270,7 +270,7 @@ export default function StudentRegistrationForm() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="role" className="block text-sm font-medium text-black mb-2">
                                         I am a *
                                     </label>
                                     <select
@@ -293,7 +293,7 @@ export default function StudentRegistrationForm() {
                         {/* Student Criteria Section */}
                         <div className="space-y-6">
                             <div className="border-b border-gray-200 pb-4">
-                                <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+                                <h2 className="text-xl font-semibold text-black flex items-center">
                                     <span className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-medium mr-3">2</span>
                                     Student Criteria
                                 </h2>
@@ -323,7 +323,7 @@ export default function StudentRegistrationForm() {
                                 </div> */}
 
                                 <div className='col-span-1'>
-                                    <label htmlFor="numberOfStudents" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="numberOfStudents" className="block text-sm font-medium text-black mb-2">
                                         Number of Students *
                                     </label>
                                     <input
@@ -340,7 +340,7 @@ export default function StudentRegistrationForm() {
                                 </div>
 
                             <div className='col-span-2'>
-                                <label className="block text-sm font-medium text-gray-700 mb-3">
+                                <label className="block text-sm font-medium text-black mb-3">
                                     Student Age Groups * (Select all that apply)
                                 </label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -365,7 +365,7 @@ export default function StudentRegistrationForm() {
                         {/* School Information Section */}
                         <div className="space-y-6">
                             <div className="border-b border-gray-200 pb-4">
-                                <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+                                <h2 className="text-xl font-semibold text-black flex items-center">
                                     <span className="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-medium mr-3">3</span>
                                     School Information
                                 </h2>
@@ -373,7 +373,7 @@ export default function StudentRegistrationForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="schoolName" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="schoolName" className="block text-sm font-medium text-black mb-2">
                                         School/Organization Name *
                                     </label>
                                     <input
@@ -389,7 +389,7 @@ export default function StudentRegistrationForm() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="schoolType" className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label htmlFor="schoolType" className="block text-sm font-medium text-black mb-2">
                                         School Type *
                                     </label>
                                     <select
@@ -412,7 +412,7 @@ export default function StudentRegistrationForm() {
                             </div>
 
                             <div>
-                                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor="address" className="block text-sm font-medium text-black mb-2">
                                     Address *
                                 </label>
                                 <input
@@ -432,14 +432,14 @@ export default function StudentRegistrationForm() {
                         
                         <div className="space-y-6">
                             <div className="border-b border-gray-200 pb-4">
-                                <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+                                <h2 className="text-xl font-semibold text-black flex items-center">
                                     <span className="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-medium mr-3">4</span>
                                     Additional Information
                                 </h2>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-black mb-2">
                                     Additional Information
                                 </label>
                                 <textarea
@@ -453,7 +453,7 @@ export default function StudentRegistrationForm() {
                             </div>
 
                             <div>
-                                <label htmlFor="howDidYouHear" className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor="howDidYouHear" className="block text-sm font-medium text-black mb-2">
                                     How did you hear about us? *
                                 </label>
                                 <select
