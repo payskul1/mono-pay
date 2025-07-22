@@ -117,7 +117,8 @@ class DatabaseService {
         students: {
           total: parseInt(formData.totalStudents) || 0,
           ageGroups: formData.ageGroups || [],
-          newPerYear: parseInt(formData.newStudentsPerYear) || 0
+          newPerYear: parseInt(formData.newStudentsPerYear) || 0,
+          studentFee: parseInt(formData.averageFee) || 0,
         },
         
         // Program Details

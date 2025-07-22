@@ -45,6 +45,17 @@ const StudentInformation = ({ formData, handleInputChange, handleCheckboxChange 
             placeholder="Average new enrollments"
           />
         </div>
+         <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Student Fee (Average)*</label>
+          <input
+            type="number"
+            name="averageFee"
+            value={formData.averageFee}
+            onChange={handleInputChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter Average Fees (Term)"
+          />
+        </div>
         
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-3">Age Groups (Select all that apply)</label>

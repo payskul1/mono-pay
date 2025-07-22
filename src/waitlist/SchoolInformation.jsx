@@ -46,17 +46,7 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
           </select>
         </div>
         
-        {/* <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">School Website</label>
-          <input
-            type="url"
-            name="schoolWebsite"
-            value={formData.schoolWebsite}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="https://schoolwebsite.com"
-          />
-        </div> */}
+        
         
         {/* <div className="md:col-span-2"> */}
         <div>
@@ -84,6 +74,7 @@ const SchoolInformation = ({ formData, handleInputChange }) => {
             placeholder="Enter city"
           />
         </div>
+       
         
         {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">State *</label>
