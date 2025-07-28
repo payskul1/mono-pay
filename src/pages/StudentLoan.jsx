@@ -489,18 +489,18 @@ const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess
     const pubKey = "live_pk_g8pqod3pkbkwds5mmi2i";
     
     // const pubKey = "test_pk_ohr9l7gksqibkvlavjyn"
-    const customerName = formData.firstName + formData.lastName;
-    const customerEmail = formData.email;
+    // const customerName = formData.firstName + formData.lastName;
+    // const customerEmail = formData.email;
     //   const [bvn, set]
-    const customer = {
-        // id: "65c31fa54e0e963044f014bb",
-        name: customerName,
-        email: customerEmail,
-        identity: {
-            type: "bvn",
-            // bvn: 2323233239
-        },
-    };
+    // const customer = {
+    //     // id: "65c31fa54e0e963044f014bb",
+    //     name: customerName,
+    //     email: customerEmail,
+    //     identity: {
+    //         type: "bvn",
+    //         bvn: 2323233239
+    //     },
+    // };
     return (
         <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white mb-6">Bank Account Information</h2>
@@ -531,7 +531,7 @@ const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess
 
                 {!bankConnected ? (
                     <MonoConnector
-                        customer={customer}
+                        customer={formData}
                         publicKey={pubKey}
                         bvn={formData.bvn}
                         onSuccess={handleSuccess}
@@ -737,7 +737,7 @@ const StudentLoan = () => {
 
 
     // Reference to Firestore collection
-    const dbref = collection(db, "loanApplications");
+    // const dbref = collection(db, "loanApplications");
 
     const steps = [
         { id: 1, title: 'Personal Info', icon: User },
