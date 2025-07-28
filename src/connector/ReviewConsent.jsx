@@ -23,16 +23,16 @@ const monoApiService = {
 
   async createOrGetCustomer(customerDetails) {
     const payload = {
-      // firstName: customerDetails.firstName,
-      // lastName: customerDetails.lastName,
-      // email: customerDetails.email,
-      // address: customerDetails.address || "N/A",
-      // phone: customerDetails.phone,
-      email: "samuelolamide@gmail.com",
-  firstName: "Samuel",
-  lastName: "Olamide",
-  address: "Agungi, Lagos",
-  phone: "08012345678",
+      firstName: customerDetails.firstName,
+      lastName: customerDetails.lastName,
+      email: customerDetails.email,
+      address: customerDetails.address || "N/A",
+      phone: customerDetails.phone,
+  //     email: "samuelolamide@gmail.com",
+  // firstName: "Samuel",
+  // lastName: "Olamide",
+  // address: "Agungi, Lagos",
+  // phone: "08012345678",
       identity: {
         type: "bvn",
         number: customerDetails.bvn,
