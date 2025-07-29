@@ -65,7 +65,6 @@ const monoApiService = {
       }
     }
 
-    // For all other errors, throw a clear message.
     throw new Error(result.message || 'Failed to process customer profile.');
   },
 
@@ -235,7 +234,6 @@ const ReviewConsent = ({ formData, onSubmit }) => {
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-white mb-6">Review & Consent</h2>
 
-      {/* --- UI Elements --- */}
       {/* ... Your JSX for Application Summary ... */}
 
       <div className="bg-yellow-600/20 border border-yellow-400/30 rounded-lg p-6">
