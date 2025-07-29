@@ -545,9 +545,6 @@ const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess
                             <CheckCircle className="w-5 h-5 mr-2" />
                             <span className="font-semibold">Bank Account Connected Successfully</span>
                         </div>
-                        {/* <p className="text-white/80">
-                            Account: {formData.accountName} - {formData.bankName}
-                        </p> */}
                     </div>
                 )}
             </div>

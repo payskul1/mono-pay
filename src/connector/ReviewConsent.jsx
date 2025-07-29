@@ -133,7 +133,6 @@ const ReviewConsent = ({ formData, onSubmit }) => {
 
       const customerId = await monoApiService.createOrGetCustomer(formData);
 
-      // const formatDateForAPI = (date) => date.toISOString().split('T')[0];
       const formatDateForAPI = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
