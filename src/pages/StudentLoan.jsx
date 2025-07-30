@@ -1290,7 +1290,7 @@ const StudentLoan = () => {
                     </div>
 
                     {/* Show navigation buttons for all steps except the final success page */}
-                    {currentStep < 6 && (
+                    {currentStep < 5 && (
                         <NavigationButtons
                             currentStep={currentStep}
                             totalSteps={steps.length}
