@@ -26,7 +26,6 @@ const MonoConnector = ({ customer,
     }
 
     const payload = {
-      // data: {
         customer: {
         name: customer.name.trim(),
         email: customer.email.trim()
@@ -36,7 +35,6 @@ const MonoConnector = ({ customer,
       },
       scope: "auth",
       redirect_url: 'https://payskul.com',
-      // }
   };
 
     try {
