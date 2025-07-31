@@ -27,7 +27,8 @@ const MonoConnector = ({ customer,
 
     const payload = {
         customer: {
-        name: customer.name.trim(),
+        // name: customer.name.trim(),
+        name: `${customer.firstName.trim()} ${customer.lastName.trim()}`,
         email: customer.email.trim()
       },
       meta: { 
