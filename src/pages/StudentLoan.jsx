@@ -719,7 +719,7 @@ const StudentLoan = () => {
         autoDebitConsent: false,
 
         // Documents
-        profileImage: null
+        // profileImage: null
     });
 
     const [imagePreview, setImagePreview] = useState(null);
