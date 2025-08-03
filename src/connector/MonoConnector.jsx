@@ -26,12 +26,13 @@ const MonoConnector = ({ customer,
 
     const payload = {
         customer: {
-        // name: customer.name.trim(),
-        name: `${customer.firstName.trim()} ${customer.lastName.trim()}`,
+        name: customer.name.trim(),
+        // name: `${customer.firstName.trim()} ${customer.lastName.trim()}`,
         email: customer.email.trim()
       },
       meta: { 
         ref: `${customer.email.replace('@', '_')}_${Date.now()}`
+        // ref: 'just'
       },
       scope: "auth",
       redirect_url: 'https://payskul.com',
@@ -64,36 +65,101 @@ const MonoConnector = ({ customer,
   }, [customer, secret]);
 
   // Then initialize Mono Connect with the auth token
+  // const initializeConnect = useCallback(async () => {
+  //   if (!window.Connect || !customer || !publicKey) {
+  //     setError('Missing required parameters or Connect not available');
+  //     return;
+  //   }
+
+  //   try {
+  //     const linkingResult = await initiateAccountLinking();
+  //     if (!linkingResult) {
+  //       return;
+  //     }
+
+  //     const config = {
+  //       key: publicKey,
+  //       data: {
+  //         customer,
+
+  //         // ...(linkingResult.auth_token && { auth_token: linkingResult.auth_token })
+  //       },
+  //       onLoad: () => {
+  //         console.log('Mono Connect initialized successfully');
+  //         setIsReady(true);
+  //         setError(null);
+  //         if (!bvn) {
+  //           setError('BVN is required');
+  //           alert('Please enter BVN');
+  //           return;
+  //         }
+  //       },
+  //       onSuccess: async ({ code }) => {
+  //         console.log('Connection successful with code:', code);
+
+  //         if (onSuccess) onSuccess(code);
+  //       },
+  //       onError: (error) => {
+  //         console.error('Mono Connect error:', error);
+  //         setError(error.message || 'Connection failed');
+  //         if (onError) onError(error);
+  //       },
+  //       onClose: () => {
+  //         console.log('Mono Connect closed');
+  //         if (onClose) onClose();
+  //       }
+  //     };
+
+  //     const connectInstance = new window.Connect(config);
+  //     connectInstance.setup();
+  //     setConnect(connectInstance);
+  //   } catch (err) {
+  //     console.error('Error initializing Mono Connect:', err);
+  //     setError('Failed to initialize Mono Connect');
+  //   }
+  // }, [customer, publicKey, secret, bvn, onSuccess, onError, onClose, initiateAccountLinking]);
   const initializeConnect = useCallback(async () => {
-    if (!window.Connect || !customer || !publicKey) {
-      setError('Missing required parameters or Connect not available');
+  if (!window.Connect || !customer || !publicKey) {
+    setError('Missing required parameters or Connect not available');
+    return;
+  }
+
+  try {
+    const linkingResult = await initiateAccountLinking();
+    if (!linkingResult || !linkingResult.data?.mono_url) {
+      setError('Failed to get connection URL');
       return;
     }
+     console.log('=== CONNECT CONFIG DEBUG ===');
+  console.log('Public Key:', publicKey);
+  console.log('Customer data:', customer);
+  console.log('Customer structure:', {
+    name: customer?.name,
+    email: customer?.email
+  });
 
-    try {
-      const linkingResult = await initiateAccountLinking();
-      if (!linkingResult) {
-        return;
-      }
+    // Extract token from mono_url if needed
+    const urlParams = new URL(linkingResult.data.mono_url);
+    const token = urlParams.pathname.split('/').pop(); 
 
-      const config = {
-        key: publicKey,
-        data: {
-          customer,
+    const config = {
+      key: publicKey,
+      data: {
+        customer,
+        auth_token: token // Use the extracted token
+      },
+      onLoad: () => {
+        console.log('Mono Connect initialized successfully');
+        setIsReady(true);
+        setError(null);
+        if (!bvn) {
+          setError('BVN is required');
+          alert('Please enter BVN');
+          return;
+        }
+      },
 
-          // ...(linkingResult.auth_token && { auth_token: linkingResult.auth_token })
-        },
-        onLoad: () => {
-          console.log('Mono Connect initialized successfully');
-          setIsReady(true);
-          setError(null);
-          if (!bvn) {
-            setError('BVN is required');
-            alert('Please enter BVN');
-            return;
-          }
-        },
-        onSuccess: async ({ code }) => {
+      onSuccess: async ({ code }) => {
           console.log('Connection successful with code:', code);
 
           if (onSuccess) onSuccess(code);
@@ -107,16 +173,20 @@ const MonoConnector = ({ customer,
           console.log('Mono Connect closed');
           if (onClose) onClose();
         }
-      };
+      
+      // ... rest of your config
+    };
+  
 
-      const connectInstance = new window.Connect(config);
-      connectInstance.setup();
-      setConnect(connectInstance);
-    } catch (err) {
-      console.error('Error initializing Mono Connect:', err);
-      setError('Failed to initialize Mono Connect');
-    }
-  }, [customer, publicKey, secret, bvn, onSuccess, onError, onClose, initiateAccountLinking]);
+    const connectInstance = new window.Connect(config);
+    connectInstance.setup();
+    setConnect(connectInstance);
+    
+  } catch (err) {
+    console.error('Error initializing Mono Connect:', err);
+    setError('Failed to initialize Mono Connect');
+  }
+}, [customer, publicKey, secret, bvn, onSuccess, onError, onClose, initiateAccountLinking]);
 
   useEffect(() => {
     const loadMonoScript = () => {
