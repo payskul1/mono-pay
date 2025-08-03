@@ -142,10 +142,10 @@ export const finalizeApplication = async (applicationId, finalData) => {
 export const createLoanApplication = async (formData) => {
   try {
     // Handle file upload if profile image exists
-    let profileImageUrl = null;
-    if (formData.profileImage) {
-      profileImageUrl = await uploadProfileImage(formData.profileImage, formData.email);
-    }
+    // let profileImageUrl = null;
+    // if (formData.profileImage) {
+    //   profileImageUrl = await uploadProfileImage(formData.profileImage, formData.email);
+    // }
 
     // Generate application ID
     const applicationId = `LN${Date.now()}`;
@@ -154,7 +154,7 @@ export const createLoanApplication = async (formData) => {
     const dataToSave = {
       ...formData,
       applicationId,
-      profileImage: profileImageUrl,
+      // profileImage: profileImageUrl,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       status: 'pending_review', // Default status
