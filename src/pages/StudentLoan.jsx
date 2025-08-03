@@ -135,7 +135,7 @@ const PersonalInformation = ({ formData, handleInputChange, imagePreview, handle
             </div> */}
         </div>
 
-        <div>
+        {/* <div>
             <label className="block text-white text-sm font-medium mb-2">Profile Image</label>
             <div className="flex items-center space-x-4">
                 <input
@@ -156,7 +156,7 @@ const PersonalInformation = ({ formData, handleInputChange, imagePreview, handle
                     <img src={imagePreview} alt="Preview" className="w-12 h-12 rounded-full object-cover" />
                 )}
             </div>
-        </div>
+        </div> */}
     </div>
 );
 // const validateIdFormat = (id) => {

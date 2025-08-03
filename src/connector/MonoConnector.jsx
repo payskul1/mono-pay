@@ -17,7 +17,6 @@ const MonoConnector = ({ customer,
   const API_BASE_URL = "https://api.withmono.com";
   const secret = 'live_sk_aowc558p7xm9my7bf4oi';
   // const secret = 'test_sk_rslkrmp9f62zvu6waj1c';
-  // const name = customer.name;
   // First, initiate account linking to get the auth token
   const initiateAccountLinking = useCallback(async () => {
     if (!customer || !secret) {
