@@ -42,9 +42,45 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
       };
-      const startDate = new Date();
-      const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
-      const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
+
+      // Extract repayment term from form data (assuming it's a number representing months)
+      // const repaymentTermMonths = parseInt(formData.repaymentTerm); // e.g., 3 for "3 months"
+        const repaymentTermMonths = (parseFloat(formData.repaymentTerm) || 0) * 12;
+
+
+      const today = new Date();
+
+      // Set start date to next month, one day before today's date
+      const startDate = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate() - 1);
+
+      // Calculate initial debit date (1 day after start date)
+      const initialDebitDate = new Date(startDate);
+      initialDebitDate.setDate(startDate.getDate() + 1);
+
+      // Calculate end date from initial debit date + repayment term months
+      const endDate = new Date(initialDebitDate.getFullYear(), initialDebitDate.getMonth() + repaymentTermMonths, initialDebitDate.getDate());
+
+      console.log('Today:', today.toDateString());
+      console.log('Start Date:', startDate.toDateString());
+      console.log('Initial Debit Date:', initialDebitDate.toDateString());
+      console.log('End Date:', endDate.toDateString());
+      console.log('Repayment Term:', repaymentTermMonths, 'months');
+
+      // Example scenarios:
+      // If today is August 8, 2025 and repayment term is 3 months:
+      // Today: Fri Aug 08 2025
+      // Start Date: Sat Sep 07 2025 (one day before today's date in next month)
+      // Initial Debit Date: Sun Sep 08 2025
+      // End Date: Sun Dec 08 2025
+
+      // If today is August 29, 2025 and repayment term is 3 months:
+      // Today: Fri Aug 29 2025
+      // Start Date: Sat Sep 28 2025 (one day before today's date in next month)
+      // Initial Debit Date: Sun Sep 29 2025
+      // End Date: Sun Dec 29 2025
+      // const startDate = new Date();
+      // const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
+      // const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
 
       const mandateAmount = Number(formData.monthlyPayment) * 100;
       const minimumDue = Math.ceil(Number(mandateAmount) / 2);
@@ -53,13 +89,13 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         type: "recurring-debit",
         debit_type: "fixed",
         mandate_type: "gsm",
-        customer: { id: customerId},
+        customer: { id: customerId },
         amount: mandateAmount,
         initial_debit_amount: mandateAmount,  // Must be <= amount and >= 20000
         minimum_due: minimumDue,
         frequency: "monthly",
         grace_period: 6,
-        retrial_frequency: 1,
+        retrial_frequency: 3,
         reference: `fee${Date.now()}`,
         description: `Monthly fee repayment for ${formData.program || 'education'} program`,
         start_date: formatDateForAPI(startDate),
@@ -71,6 +107,8 @@ const ReviewConsent = ({ formData, onSubmit }) => {
           application_id: `APP_${Date.now()}`,
         },
       };
+
+      console.log("total ", (repaymentTermMonths * mandateAmount));
 
       console.log("Submitting Final Mandate Payload:", mandatePayload);
 
