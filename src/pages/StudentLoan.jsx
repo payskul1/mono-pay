@@ -484,7 +484,7 @@ const Financial = ({ formData, handleInputChange }) => (
     </div>
 );
 
-const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess, handleError, handleClose }) => {
+const BankAccount = ({ formData, handleInputChange}) => {
     // const pubKey = "test_pk_vulwcz9yw9kqdtvua5q4";
     const pubKey = "live_pk_g8pqod3pkbkwds5mmi2i";
     
@@ -528,7 +528,7 @@ const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess
                     Connect your bank account securely to enable automatic loan repayments.
                 </p>
 
-                {!bankConnected ? (
+                {/* {!bankConnected ? (
                     <MonoConnector
                         // customer={formData}
                         customer={customer}
@@ -546,7 +546,7 @@ const BankAccount = ({ formData, handleInputChange, bankConnected, handleSuccess
                             <span className="font-semibold">Bank Account Connected Successfully</span>
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     );
@@ -960,10 +960,11 @@ const StudentLoan = () => {
                 };
             case 4:
                 return {
-                    bankName: formData.bankName,
-                    accountNumber: formData.accountNumber,
-                    routingNumber: formData.routingNumber,
-                    accountType: formData.accountType
+                    // bankName: formData.bankName,
+                    // accountNumber: formData.accountNumber,
+                    // routingNumber: formData.routingNumber,
+                    // accountType: formData.accountType,
+                    bvn: formData.bvn,
                 };
             case 5:
                 return {
@@ -1016,7 +1017,8 @@ const StudentLoan = () => {
         const hasValidationErrors = Object.values(validationErrors).some(error => error !== '');
 
         if (step === 4) {
-            return hasRequiredFields && bankConnected;
+            // return hasRequiredFields && bankConnected;
+            return hasRequiredFields;
         }
 
         return hasRequiredFields && !hasValidationErrors;
@@ -1215,11 +1217,11 @@ const StudentLoan = () => {
                     <BankAccount
                         formData={formData}
                         handleInputChange={handleInputChange}
-                        bankConnected={bankConnected}
-                        handleSuccess={handleSuccess}
-                        handleError={handleError}
-                        handleClose={handleClose}
-                        validationErrors={validationErrors}
+                        // bankConnected={bankConnected}
+                        // handleSuccess={handleSuccess}
+                        // handleError={handleError}
+                        // handleClose={handleClose}
+                        // validationErrors={validationErrors}
                     />
                 );
             case 5:
