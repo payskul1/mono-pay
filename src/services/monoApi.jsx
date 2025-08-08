@@ -1,7 +1,6 @@
 const API_BASE_URL = 'https://api.withmono.com';
-// IMPORTANT: In a real application, this secret key MUST be handled on your backend.
-// Exposing it in the frontend is a major security risk. This is for demonstration only.
 // const SECRET_KEY = 'test_sk_b70y8f5d7cc04nj27fj1';
+// const SECRET_KEY = 'test_sk_rslkrmp9f62zvu6waj1c';   //1
 const SECRET_KEY = 'live_sk_aowc558p7xm9my7bf4oi';
 
 
@@ -24,6 +23,7 @@ export const createOrGetCustomer = async (customerDetails) => {
             number: customerDetails.bvn, // BVN is required by the API
         },
     };
+    console.log("EMAIL "+ payload.email," PHONE NO ", payload.phone, "ADDRESS ", payload.address);
 
     const response = await fetch(`${API_BASE_URL}/v2/customers`, {
         method: 'POST',
@@ -42,16 +42,14 @@ export const createOrGetCustomer = async (customerDetails) => {
         return result.data.id;
     }
 
-    // This is the CRUCIAL part for handling the existing customer error gracefully.
-    if (result.status === 'failed' && result.message.toLowerCase().includes('customer already exists')) {
-        const existingId = result.data?.existing_customer?.id;
-        if (existingId) {
-            console.log('API Service: Customer already exists. Using existing ID:', existingId);
-            return existingId;
-        }
+     if (result.message?.toLowerCase().includes('customer already exists')) {
+      const existingId = result.data?.existing_customer?.id;
+      if (existingId) {
+        console.log('Customer already exists. Using existing ID:', existingId);
+        return existingId;
+      }
     }
 
-    // For any other error, throw it so the component can catch it.
     throw new Error(result.message || 'Failed to create customer profile.');
 };
 

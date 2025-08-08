@@ -3,102 +3,9 @@ import { Shield, AlertCircle } from 'lucide-react';
 import { createLoanApplication } from '../services/fireStoreService';
 import { collection } from 'firebase/firestore';
 import { db } from './firebaseConnector';
-
-// --- API Service Logic (Mirroring Python functions) ---
-// This section handles all communication with the Mono API.
+import { createOrGetCustomer, initiateMandate } from '../services/monoApi';
 
 const API_BASE_URL = 'https://api.withmono.com';
-// IMPORTANT: For production, this key must be kept on a backend server.
-// const SECRET_KEY = 'live_sk_f6cgvt4md9o6e2h0x2ho';
-  // const SECRET_KEY = 'test_sk_rslkrmp9f62zvu6waj1c';
-  const SECRET_KEY = 'live_sk_aowc558p7xm9my7bf4oi';
-
-const monoApiService = {
-  /**
-   * Creates a new customer or retrieves the ID if they already exist.
-   * Mirrors the `create_or_get_customer` Python function.
-   * @param {object} customerDetails - Contains firstName, lastName, email, bvn, etc.
-   * @returns {Promise<string>} The customer ID.
-   */
-
-  async createOrGetCustomer(customerDetails) {
-    const payload = {
-      firstName: customerDetails.firstName,
-      lastName: customerDetails.lastName,
-      email: customerDetails.email,
-      address: customerDetails.address || "N/A",
-      phone: customerDetails.phone,
-  //     email: "samuelolamide@gmail.com",
-  // firstName: "Samuel",
-  // lastName: "Olamide",
-  // address: "Agungi, Lagos",
-  // phone: "08012345678",
-      identity: {
-        type: "bvn",
-        number: customerDetails.bvn,
-      },
-    };
-
-    const response = await fetch(`${API_BASE_URL}/v2/customers`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'accept': 'application/json',
-        'mono-sec-key': SECRET_KEY,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      console.log('New customer created with ID:', result.data.id);
-      return result.data.id;
-    }
-
-    // Gracefully handle "customer already exists" error
-    if (result.message?.toLowerCase().includes('customer already exists')) {
-      const existingId = result.data?.existing_customer?.id;
-      if (existingId) {
-        console.log('Customer already exists. Using existing ID:', existingId);
-        return existingId;
-      }
-    }
-
-    throw new Error(result.message || 'Failed to process customer profile.');
-  },
-
-  /**
-   * Initiates a Direct Debit mandate.
-   * Mirrors the `initiate_mandate` Python function.
-   * @param {object} mandatePayload - The fully constructed payload.
-   * @returns {Promise<object>} The mandate data from Mono, including mono_url.
-   */
-  async initiateMandate(mandatePayload) {
-    const response = await fetch(`${API_BASE_URL}/v2/payments/initiate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'accept': 'application/json',
-        'mono-sec-key': SECRET_KEY,
-      },
-      body: JSON.stringify(mandatePayload),
-      
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      console.log('Mandate initiated successfully.');
-      return result.data;
-    }
-
-    // Extract detailed error message from validation failures
-    const errorMessage = result.data?.[0]?.message || result.message || 'Mandate creation failed.';
-    throw new Error(errorMessage);
-  }
-};
-
 
 const ReviewConsent = ({ formData, onSubmit }) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -107,10 +14,6 @@ const ReviewConsent = ({ formData, onSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [applicationId, setApplicationId] = useState('');
-
-  const dbref = collection(db, "loanApplications");
-  
-
 
   const handleCheckboxChange = (e) => {
     setConsentChecked(e.target.checked);
@@ -130,7 +33,8 @@ const ReviewConsent = ({ formData, onSubmit }) => {
 
       if (!formData.bvn) throw new Error("BVN is a required field.");
 
-      const customerId = await monoApiService.createOrGetCustomer(formData);
+      const customerId = await createOrGetCustomer(formData);
+
 
       const formatDateForAPI = (date) => {
         const year = date.getFullYear();
@@ -140,7 +44,6 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       };
       const startDate = new Date();
       const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
-      // const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1); // Tomorrow
       const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
 
       const mandateAmount = Number(formData.monthlyPayment) * 100;
@@ -150,8 +53,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         type: "recurring-debit",
         debit_type: "fixed",
         mandate_type: "gsm",
-        customer: { id: customerId },
-
+        customer: { id: customerId},
         amount: mandateAmount,
         initial_debit_amount: mandateAmount,  // Must be <= amount and >= 20000
         minimum_due: minimumDue,
@@ -173,7 +75,9 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       console.log("Submitting Final Mandate Payload:", mandatePayload);
 
       // Step 3: Initiate the Mandate
-      const mandateData = await monoApiService.initiateMandate(mandatePayload);
+      // const mandateData = await monoApiServi.initiateMandate(mandatePayload);
+      const mandateData = await initiateMandate(mandatePayload);
+
 
       // Step 4: Handle Success
       if (mandateData?.mono_url) {
@@ -211,9 +115,6 @@ const ReviewConsent = ({ formData, onSubmit }) => {
         // setSubmissionSuccess(true);
         console.log("Firestore Document written with ID: ", result.id);
 
-        // Move to success page
-        // setCurrentStep(6);
-
         console.log('Application ID:', result.applicationId);
         console.log('Document ID:', result.id);
       } else {
@@ -233,9 +134,6 @@ const ReviewConsent = ({ formData, onSubmit }) => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-white mb-6">Review & Consent</h2>
-
-      {/* ... Your JSX for Application Summary ... */}
-
       <div className="bg-yellow-600/20 border border-yellow-400/30 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
           <Shield className="w-5 h-5 mr-2" />
