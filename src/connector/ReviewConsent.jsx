@@ -58,7 +58,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       initialDebitDate.setDate(startDate.getDate() + 1);
 
       // Calculate end date from initial debit date + repayment term months
-      const endDate = new Date(initialDebitDate.getFullYear(), initialDebitDate.getMonth() + repaymentTermMonths, initialDebitDate.getDate());
+      const endDate = new Date(initialDebitDate.getFullYear(), initialDebitDate.getMonth() + repaymentTermMonths -1, initialDebitDate.getDate());
 
       console.log('Today:', today.toDateString());
       console.log('Start Date:', startDate.toDateString());
