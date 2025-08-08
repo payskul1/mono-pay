@@ -82,7 +82,7 @@ const ReviewConsent = ({ formData, onSubmit }) => {
       // const endDate = new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate()); // 1 year from now
       // const initialDebitDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, startDate.getDate());
 
-      const mandateAmount = Number(formData.monthlyPayment) * 100;
+      const mandateAmount = Math.round(Number(formData.monthlyPayment) * 100);
       const minimumDue = Math.ceil(Number(mandateAmount) / 2);
       console.log("Amount ", mandateAmount);
       const mandatePayload = {
